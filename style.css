@@ -143,8 +143,9 @@ body > header{
 /* 参考会飞的鱼：首屏通栏，滚动后整条导航收成居中的悬浮胶囊。 */
 .nav{
   --dock-ease:.45s cubic-bezier(.34,1.35,.64,1);
+  --nav-gutter:clamp(20px, .7rem + 2.6vw, 64px);
   position:absolute;top:0;left:50%;width:100%;height:64px;
-  display:flex;align-items:center;gap:16px;padding:0 clamp(20px, .7rem + 2.6vw, 64px);
+  display:flex;align-items:center;padding:0 var(--nav-gutter);
   isolation:isolate;pointer-events:auto;
   border-radius:0;transform:translate3d(-50%,0,0);
   transition:width var(--dock-ease),top var(--dock-ease),height var(--dock-ease),padding var(--dock-ease),border-radius var(--dock-ease);
@@ -179,11 +180,15 @@ body > header{
 }
 .nav-brand:hover{color:var(--blue);transform:translateY(-1px)}
 .brand-mark{
-  display:grid;place-items:center;width:26px;height:26px;border:1px solid rgba(200,215,255,.55);border-radius:5px;
-  background:linear-gradient(135deg,rgba(168,200,255,.26),rgba(255,194,229,.22));box-shadow:inset 0 1px 1px rgba(255,255,255,.42),0 0 16px rgba(168,200,255,.18);
-  color:#f6f7ff;font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:700;letter-spacing:0;
+  display:block;width:26px;height:26px;object-fit:contain;border-radius:5px;
 }
-.nav-links{position:relative;z-index:2;display:flex;align-items:center;gap:4px;margin-left:auto}
+.nav-links{
+  position:absolute;z-index:2;top:50%;left:calc(100% - var(--nav-gutter));
+  display:flex;align-items:center;gap:4px;width:max-content;
+  transform:translate(-100%,-50%);
+  transition:left var(--dock-ease),transform var(--dock-ease);
+}
+.nav.is-docked .nav-links{left:50%;transform:translate(-50%,-50%)}
 .nav-links a{
   position:relative;z-index:2;isolation:isolate;font-size:12px;font-weight:500;letter-spacing:.08em;padding:8px 16px;border-radius:999px;
   color:#c8cde3;white-space:nowrap;transition:color .3s;
@@ -208,16 +213,17 @@ body > header{
   box-shadow:var(--bubble-shadow);
   will-change:transform,width;
 }
-@media (max-width:560px){
+@media (max-width:640px){
   body > header{height:64px}
-  .nav{height:56px;padding:0 12px;gap:6px}
+  .nav{--nav-gutter:12px;height:56px}
   .nav.is-docked{top:max(8px,env(safe-area-inset-top));width:calc(100% - 16px);height:48px;padding:0 8px}
   .nav-brand{gap:5px;font-size:11px;letter-spacing:0}
   .brand-mark{width:24px;height:24px}
   .nav-links{gap:0}
   .nav-links a{padding:7px clamp(4px,1.5vw,8px);font-size:11px;letter-spacing:0}
 }
-@media (prefers-reduced-motion:reduce){.nav,.nav-surface,.nav-brand{transition-duration:1ms!important}}
+@media (max-width:360px){.nav-links a{padding-inline:3px}}
+@media (prefers-reduced-motion:reduce){.nav,.nav-surface,.nav-brand,.nav-links{transition-duration:1ms!important}}
 
 /* ---------- 滚动结构 ---------- */
 #scroll-wrap{position:fixed;top:0;left:0;width:100%;z-index:10;will-change:transform}
