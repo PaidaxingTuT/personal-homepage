@@ -176,11 +176,13 @@ body > header{
 .nav.is-docked .nav-surface{opacity:1;transform:scale(1)}
 .nav-brand{
   position:relative;z-index:2;display:inline-flex;align-items:center;gap:10px;flex:none;color:var(--ink);
-  font-size:13px;font-weight:700;letter-spacing:.08em;transition:color .25s var(--ease-out-expo),transform .25s var(--ease-out-expo);
+  font-size:13px;font-weight:700;letter-spacing:.08em;transition:color .25s var(--ease-out-expo);
 }
-.nav-brand:hover{color:var(--blue);transform:translateY(-1px)}
+.nav-brand:hover{color:var(--blue)}
+.brand-label{display:grid;align-items:center;align-self:stretch;line-height:1}
 .brand-mark{
-  display:block;width:26px;height:26px;object-fit:contain;border-radius:5px;
+  display:block;width:26px;height:26px;padding:2px;object-fit:contain;
+  border:1px solid #b9c6ee;border-radius:5px;background:#dce4f7;
 }
 .nav-links{
   position:absolute;z-index:2;top:50%;left:calc(100% - var(--nav-gutter));
