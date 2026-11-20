@@ -1,5 +1,5 @@
 /* =========================================================
-   1. WebGL 3D 流体 — 蓝绿液态玻璃 metaballs
+   1. WebGL 3D 流体 — 天蓝色液态玻璃 metaballs
    ========================================================= */
 (() => {
   const canvas = document.getElementById('gl');
@@ -74,26 +74,26 @@
         float spec = pow(max(dot(reflect(-l, n), -rd), 0.), 72.);
 
         // 冷夜基底
-        vec3 base = vec3(.02, .07, .09);
-        vec3 c = base + diff * vec3(.06, .16, .19);
+        vec3 base = vec3(.025, .055, .14);
+        vec3 c = base + diff * vec3(.06, .14, .31);
 
         // 假环境反射:天光/地面二分 → 液态水银质感
         vec3 r = reflect(rd, n);
         float band = smoothstep(-.35, .45, r.y);
-        vec3 env = mix(vec3(.05, .21, .24), vec3(.65, .91, .96), band);
+        vec3 env = mix(vec3(.045, .15, .35), vec3(.71, .86, 1.00), band);
         c += env * .35;
 
-        // 菲涅尔反光随滚动从冰蓝过渡到青色和薄荷绿。
-        vec3 iridA = vec3(.45, .76, 1.00);
-        vec3 iridM = vec3(.35, .90, .94);
-        vec3 iridB = vec3(.42, 1.00, .75);
+        // 菲涅尔反光随滚动在冰蓝、天蓝和亮蓝之间变化。
+        vec3 iridA = vec3(.72, .86, 1.00);
+        vec3 iridM = vec3(.35, .69, 1.00);
+        vec3 iridB = vec3(.16, .58, 1.00);
         float ph = .5 + .5*sin(n.y*4. + n.x*2. + uTime*.6 + uVel*1.5);
         ph = clamp(ph + (uScroll - .5)*.45, 0., 1.);
         vec3 irid = mix(mix(iridA, iridM, smoothstep(0., .55, ph)), iridB, smoothstep(.45, 1., ph));
         c += fres * irid * 1.0;
 
         // 冰白柔高光
-        c += spec * vec3(.84, .99, 1.00);
+        c += spec * vec3(.91, .96, 1.00);
 
         float a = .92 - smoothstep(5., 8., tt)*.5;
         col = vec4(c, a);
@@ -162,7 +162,7 @@
 const Scroll = (() => {
   const wrap = document.getElementById('scroll-wrap');
   const nebBlue = document.getElementById('nebBlue');
-  const nebMint = document.getElementById('nebMint');
+  const nebSky = document.getElementById('nebSky');
   let current = 0, target = 0, vel = 0, max = 0;
   const skewEls = [...document.querySelectorAll('[data-skew]')];
 
@@ -191,7 +191,7 @@ const Scroll = (() => {
     window.__fluid.scroll = p;
     window.__fluid.vel = vel;
     nebBlue.style.opacity = (1 - p).toFixed(3);   // 顶部淡蓝
-    nebMint.style.opacity = p.toFixed(3);         // 底部过渡到薄荷绿
+    nebSky.style.opacity = p.toFixed(3);          // 底部过渡到亮蓝
     requestAnimationFrame(raf);
   }
   requestAnimationFrame(raf);
