@@ -1,5 +1,5 @@
 (() => {
-  const pendingHosts = new Set(['api', 'video', 'mail', 'git', 'class'].map(name => `${name}.pdxstudio.top`));
+  const pendingHosts = new Set(['api', 'video', 'mail', 'class'].map(name => `${name}.pdxstudio.top`));
   const pendingPaths = /^\/(score|check|kugou|api)(\/|$)/;
   function unavailable(link) {
     try {
