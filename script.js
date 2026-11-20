@@ -215,13 +215,11 @@ document.querySelectorAll('[data-nav]').forEach(a => {
 
 /* 顶部导航：首屏保持轻量，越过首屏起点后收成悬浮玻璃胶囊。 */
 (() => {
-  const header = document.querySelector('body > header');
-  const nav = header?.querySelector('.nav');
-  if (!header || !nav) return;
+  const nav = document.querySelector('body > header .nav');
+  if (!nav) return;
   let ticking = false;
   const update = () => {
-    const docked = scrollY > 28;
-    header.classList.toggle('is-docked', docked);
+    const docked = scrollY > 20;
     nav.classList.toggle('is-docked', docked);
     ticking = false;
   };
@@ -234,7 +232,7 @@ document.querySelectorAll('[data-nav]').forEach(a => {
 })();
 
 /* 导航状态只在对应区块进入当前视窗时高亮。 */
-const navLinks = [...document.querySelectorAll('.nav [data-nav]')];
+const navLinks = [...document.querySelectorAll('.nav-links [data-nav]')];
 const navSections = navLinks
   .map(link => document.querySelector(link.getAttribute('href')))
   .filter(Boolean);
@@ -242,7 +240,7 @@ let activeNavLink = null;
 
 /* 液态选中指示器:单个 3D 气泡平滑滑向当前项,移动时像液滴般轻微拉伸 */
 const navBubble = (() => {
-  const el = document.querySelector('.nav-bubble');
+  const el = document.querySelector('.nav-links .nav-bubble');
   const cur = { x: 0, w: 0 };
   let box = null, pop = 0, targetPop = 0;
 
