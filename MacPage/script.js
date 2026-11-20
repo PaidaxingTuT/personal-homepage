@@ -114,7 +114,7 @@ const appRegistry = {
           <article class="project-item">
             <strong>小黑盒视频解析器</strong>
             <p>小黑盒视频解析下载工具。</p>
-            <p><a href="https://video.pdxstudio.site/" target="_blank" rel="noreferrer">打开页面</a></p>
+            <p><a href="https://video.pdxstudio.top/" target="_blank" rel="noreferrer">打开页面</a></p>
           </article>
         </div>
       </section>
@@ -204,8 +204,8 @@ const appRegistry = {
           </article>
           <article class="contact-item">
             <strong>Email</strong>
-            <p><code>mail@pdxstudio.site</code></p>
-            <p><a href="mailto:mail@pdxstudio.site">发送邮件</a></p>
+            <p><code>mail@pdxstudio.top</code></p>
+            <p><a href="mailto:mail@pdxstudio.top">发送邮件</a></p>
           </article>
           <article class="contact-item">
             <strong>交流群</strong>

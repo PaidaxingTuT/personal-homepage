@@ -82,7 +82,7 @@ let activeFilter = "all";
 let currentDetailStageId = null;
 let uiText = { ...defaultUi };
 let stages = [];
-const remoteEnabled = location.protocol !== "file:";
+const remoteEnabled = false; // Static hosting: progress is saved in this browser.
 
 function readProgress() {
   try {
