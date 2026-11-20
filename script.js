@@ -213,6 +213,26 @@ document.querySelectorAll('[data-nav]').forEach(a => {
   });
 });
 
+/* 顶部导航：首屏保持轻量，越过首屏起点后收成悬浮玻璃胶囊。 */
+(() => {
+  const header = document.querySelector('body > header');
+  const nav = header?.querySelector('.nav');
+  if (!header || !nav) return;
+  let ticking = false;
+  const update = () => {
+    const docked = scrollY > 28;
+    header.classList.toggle('is-docked', docked);
+    nav.classList.toggle('is-docked', docked);
+    ticking = false;
+  };
+  update();
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive:true });
+})();
+
 /* 导航状态只在对应区块进入当前视窗时高亮。 */
 const navLinks = [...document.querySelectorAll('.nav [data-nav]')];
 const navSections = navLinks

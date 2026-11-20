@@ -141,19 +141,24 @@ body > header{
   position:fixed;top:0;left:0;right:0;z-index:45;
   display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;
   padding:16px 0;pointer-events:none;
+  transition:padding .46s var(--ease-out-expo);
 }
 .home-nav{
   grid-column:1;justify-self:end;margin-right:12px;pointer-events:auto;
-  height:calc(1.5em + 28px);padding:0 16px;border:1px solid rgba(190,205,255,.2);border-radius:999px;
-  background:var(--glass-bg);box-shadow:var(--glass-shadow);backdrop-filter:blur(18px) saturate(160%);
+  height:calc(1.5em + 28px);padding:0 16px;border:1px solid transparent;border-radius:999px;
+  background:transparent;box-shadow:none;backdrop-filter:blur(0) saturate(100%);
   display:grid;place-items:center;color:var(--dim);font-size:12px;font-weight:500;letter-spacing:.08em;
-  transition:color .3s,box-shadow .4s,transform .4s var(--ease-out-expo);
+  transition:color .3s,background .45s var(--ease-out-expo),border-color .45s var(--ease-out-expo),box-shadow .45s var(--ease-out-expo),backdrop-filter .45s var(--ease-out-expo),transform .46s var(--ease-out-expo);
 }
 .home-nav:hover{color:var(--ink);box-shadow:var(--bubble-shadow)}
-/* 顶部栏:3D 液态玻璃 — 顶部天光弧+斜向光泽+两端掠射光+底部反光+菲涅尔环 */
+/* 顶部为轻量导航；滚动后收成悬浮的液态玻璃胶囊。 */
 .nav{
-  grid-column:2;position:relative;pointer-events:auto;display:flex;gap:4px;padding:6px;
-  border-radius:999px;
+  grid-column:2;position:relative;isolation:isolate;overflow:hidden;pointer-events:auto;display:flex;gap:4px;padding:6px;
+  border-radius:999px;transform:translate3d(0,0,0) scale(1);
+  transition:padding .46s var(--ease-out-expo),transform .46s var(--ease-out-expo),box-shadow .46s var(--ease-out-expo);
+}
+.nav-surface{
+  position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;
   background:
     radial-gradient(ellipse 70% 55% at 50% -18%, rgba(255,255,255,.20), rgba(255,255,255,0) 58%),
     linear-gradient(115deg, rgba(255,255,255,.08), rgba(255,255,255,0) 34%),
@@ -169,9 +174,17 @@ body > header{
     inset 0 -10px 22px rgba(110,90,220,.13),
     0 12px 34px rgba(4,6,20,.5),
     0 1px 0 rgba(255,255,255,.05);
+  opacity:0;transform:scale(.94);
+  transition:opacity .46s var(--ease-out-expo),transform .46s var(--ease-out-expo);
+}
+body > header.is-docked{padding:14px 0}
+body > header.is-docked .nav{padding:6px;transform:translate3d(0,0,0) scale(.96)}
+body > header.is-docked .nav-surface{opacity:1;transform:scale(1)}
+body > header.is-docked .home-nav{
+  border-color:rgba(190,205,255,.2);background:var(--glass-bg);box-shadow:var(--glass-shadow);backdrop-filter:blur(18px) saturate(160%);
 }
 .nav a{
-  position:relative;isolation:isolate;font-size:12px;font-weight:500;letter-spacing:.08em;padding:8px 16px;border-radius:999px;
+  position:relative;z-index:2;isolation:isolate;font-size:12px;font-weight:500;letter-spacing:.08em;padding:8px 16px;border-radius:999px;
   color:var(--dim);transition:color .3s;
 }
 /* hover 特效:非选中项浮出一层微光玻璃 */
@@ -189,12 +202,13 @@ body > header{
 .nav a.acc{color:#05060f;font-weight:700}
 /* 液态选中指示器:3D 水银气泡质感(呼应背景流体),平滑滑向当前项 */
 .nav-bubble{
-  position:absolute;left:0;top:0;width:0;border-radius:999px;pointer-events:none;
+  position:absolute;z-index:1;left:0;top:0;width:0;border-radius:999px;pointer-events:none;
   background:var(--bubble-bg);
   box-shadow:var(--bubble-shadow);
   will-change:transform,width;
 }
-@media (max-width:560px){.home-nav{height:calc(1.5em + 22px);margin-right:6px;padding:0 9px;font-size:11px;letter-spacing:.08em}.nav{gap:1px;padding:4px}.nav a{padding:7px 9px;font-size:11px}}
+@media (max-width:560px){.home-nav{height:calc(1.5em + 22px);margin-right:6px;padding:0 9px;font-size:11px;letter-spacing:.08em}.nav{gap:1px;padding:4px}.nav a{padding:7px 9px;font-size:11px}body > header.is-docked .nav{transform:none}}
+@media (prefers-reduced-motion:reduce){body > header,.home-nav,.nav,.nav-surface{transition-duration:1ms!important}}
 
 /* ---------- 滚动结构 ---------- */
 #scroll-wrap{position:fixed;top:0;left:0;width:100%;z-index:10;will-change:transform}
