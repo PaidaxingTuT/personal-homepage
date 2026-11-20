@@ -8,4 +8,4 @@ Disallow: /popword/
 Disallow: /score
 Allow: /
 
-Sitemap: https://pdxstudio.top/sitemap.xml
+Sitemap: https://www.pdxstudio.top/sitemap.xml

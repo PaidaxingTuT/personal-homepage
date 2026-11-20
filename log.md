@@ -12,7 +12,8 @@
 - 2026.05.25 新增B站分P时长统计
 - 2026.06.07 新增小黑盒视频解析器
 - 2026.07.26 整体风格重构，全站升级 3D 液态玻璃质感
-- 2026.11.20 启用新域名 [pdxstudio.top](https://pdxstudio.top/)
+- 2026.11.20 启用新域名 [pdxstudio.top](https://www.pdxstudio.top/)
+- 2026.11.20 主页统一使用 [www.pdxstudio.top](https://www.pdxstudio.top/)，天音彼方纪念页迁至 [kanata.pdxstudio.top](https://kanata.pdxstudio.top/)
 
 
 ## 欢迎补充与反馈

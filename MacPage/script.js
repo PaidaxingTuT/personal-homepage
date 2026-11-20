@@ -109,7 +109,7 @@ const appRegistry = {
           <article class="project-item">
             <strong>PopWord</strong>
             <p>浏览器插件英语学习助手。</p>
-            <p><a href="https://pdxstudio.top/popword" target="_blank" rel="noreferrer">打开页面</a></p>
+            <p><a href="https://www.pdxstudio.top/popword" target="_blank" rel="noreferrer">打开页面</a></p>
           </article>
           <article class="project-item">
             <strong>小黑盒视频解析器</strong>
