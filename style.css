@@ -142,10 +142,12 @@ body > header{
 }
 /* 参考会飞的鱼：首屏通栏，滚动后整条导航收成居中的悬浮胶囊。 */
 .nav{
-  position:absolute;top:0;left:50%;width:calc(100% - 48px);height:64px;
-  display:flex;align-items:center;gap:24px;padding:0 28px;isolation:isolate;overflow:hidden;pointer-events:auto;
+  --dock-ease:.45s cubic-bezier(.34,1.35,.64,1);
+  position:absolute;top:0;left:50%;width:100%;height:64px;
+  display:flex;align-items:center;gap:16px;padding:0 clamp(20px, .7rem + 2.6vw, 64px);
+  isolation:isolate;pointer-events:auto;
   border-radius:0;transform:translate3d(-50%,0,0);
-  transition:width .5s var(--ease-out-expo),top .5s var(--ease-out-expo),height .5s var(--ease-out-expo),padding .5s var(--ease-out-expo),border-radius .5s var(--ease-out-expo);
+  transition:width var(--dock-ease),top var(--dock-ease),height var(--dock-ease),padding var(--dock-ease),border-radius var(--dock-ease);
 }
 .nav-surface{
   position:absolute;inset:0;z-index:0;border-radius:inherit;pointer-events:none;
@@ -164,11 +166,11 @@ body > header{
     inset 0 -10px 22px rgba(110,90,220,.13),
     0 12px 34px rgba(4,6,20,.5),
     0 1px 0 rgba(255,255,255,.05);
-  opacity:0;transform:scale(.96);
-  transition:opacity .5s var(--ease-out-expo),transform .5s var(--ease-out-expo);
+  opacity:0;transform:scale(.98);
+  transition:opacity var(--dock-ease),transform var(--dock-ease);
 }
 .nav.is-docked{
-  top:16px;width:min(840px,calc(100% - 32px));height:52px;padding:0 14px;border-radius:999px;
+  top:max(16px,env(safe-area-inset-top));width:min(840px,85%);height:52px;padding:0 12px;border-radius:999px;
 }
 .nav.is-docked .nav-surface{opacity:1;transform:scale(1)}
 .nav-brand{
@@ -184,7 +186,7 @@ body > header{
 .nav-links{position:relative;z-index:2;display:flex;align-items:center;gap:4px;margin-left:auto}
 .nav-links a{
   position:relative;z-index:2;isolation:isolate;font-size:12px;font-weight:500;letter-spacing:.08em;padding:8px 16px;border-radius:999px;
-  color:var(--dim);transition:color .3s;
+  color:#c8cde3;white-space:nowrap;transition:color .3s;
 }
 /* hover 特效:非选中项浮出一层微光玻璃 */
 .nav-links a::before{
@@ -207,8 +209,13 @@ body > header{
   will-change:transform,width;
 }
 @media (max-width:560px){
-  body > header{height:64px}.nav{width:calc(100% - 20px);height:56px;padding:0 10px;gap:8px}.nav.is-docked{top:6px;width:calc(100% - 20px);height:48px;padding:0 10px}
-  .brand-label{display:none}.brand-mark{width:25px;height:25px}.nav-links{gap:1px}.nav-links a{padding:7px 8px;font-size:11px;letter-spacing:.04em}
+  body > header{height:64px}
+  .nav{height:56px;padding:0 12px;gap:6px}
+  .nav.is-docked{top:max(8px,env(safe-area-inset-top));width:calc(100% - 16px);height:48px;padding:0 8px}
+  .nav-brand{gap:5px;font-size:11px;letter-spacing:0}
+  .brand-mark{width:24px;height:24px}
+  .nav-links{gap:0}
+  .nav-links a{padding:7px clamp(4px,1.5vw,8px);font-size:11px;letter-spacing:0}
 }
 @media (prefers-reduced-motion:reduce){.nav,.nav-surface,.nav-brand{transition-duration:1ms!important}}
 
