@@ -143,6 +143,7 @@ body > header{
 /* 参考会飞的鱼：首屏通栏，滚动后整条导航收成居中的悬浮胶囊。 */
 .nav{
   --dock-ease:.45s cubic-bezier(.34,1.35,.64,1);
+  --dock-max-width:520px;
   --nav-edge:clamp(20px, .7rem + 2.6vw, 64px);
   position:absolute;top:0;left:50%;width:100%;height:64px;
   isolation:isolate;pointer-events:auto;
@@ -170,7 +171,7 @@ body > header{
   transition:opacity var(--dock-ease),transform var(--dock-ease);
 }
 .nav.is-docked{
-  top:max(16px,env(safe-area-inset-top));width:min(840px,85%);height:52px;border-radius:999px;
+  top:max(16px,env(safe-area-inset-top));width:min(var(--dock-max-width),85%);height:52px;border-radius:999px;
 }
 .nav.is-docked .nav-surface{opacity:1;transform:scale(1)}
 .nav-logo{
@@ -214,7 +215,7 @@ body > header{
 @media (max-width:640px){
   body > header{height:64px}
   .nav{--nav-edge:12px;height:56px}
-  .nav.is-docked{top:max(8px,env(safe-area-inset-top));width:calc(100% - 16px);height:48px}
+  .nav.is-docked{top:max(8px,env(safe-area-inset-top));width:min(var(--dock-max-width),calc(100% - 16px));height:48px}
   .nav-logo,.nav.is-docked .nav-logo{left:4px}
   .nav-links{gap:0}
   .nav-links a{padding:7px clamp(4px,1.5vw,8px);font-size:11px;letter-spacing:0}
