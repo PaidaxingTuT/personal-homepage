@@ -173,6 +173,13 @@ body > header{
   top:max(16px,env(safe-area-inset-top));width:min(840px,85%);height:52px;border-radius:999px;
 }
 .nav.is-docked .nav-surface{opacity:1;transform:scale(1)}
+.nav-logo{
+  position:absolute;z-index:2;left:clamp(12px,3vw,40px);top:50%;
+  display:grid;place-items:center;width:44px;height:44px;border-radius:8px;
+  transform:translateY(-50%);transition:left var(--dock-ease);
+}
+.nav.is-docked .nav-logo{left:8px}
+.nav-logo img{display:block;object-fit:contain;filter:brightness(0) invert(.9)}
 .nav-links{
   position:relative;z-index:2;display:flex;align-items:center;gap:4px;
 }
@@ -204,11 +211,12 @@ body > header{
   body > header{height:64px}
   .nav{height:56px}
   .nav.is-docked{top:max(8px,env(safe-area-inset-top));width:calc(100% - 16px);height:48px}
+  .nav-logo,.nav.is-docked .nav-logo{left:4px}
   .nav-links{gap:0}
   .nav-links a{padding:7px clamp(4px,1.5vw,8px);font-size:11px;letter-spacing:0}
 }
 @media (max-width:360px){.nav-links a{padding-inline:3px}}
-@media (prefers-reduced-motion:reduce){.nav,.nav-surface{transition-duration:1ms!important}}
+@media (prefers-reduced-motion:reduce){.nav,.nav-surface,.nav-logo{transition-duration:1ms!important}}
 
 /* ---------- 滚动结构 ---------- */
 #scroll-wrap{position:fixed;top:0;left:0;width:100%;z-index:10;will-change:transform}
