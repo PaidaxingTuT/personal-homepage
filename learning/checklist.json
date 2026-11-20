@@ -1,0 +1,228 @@
+{
+  "stage-1": {
+    "tasks": [
+      "掌握 Python 基础语法、数据类型、控制流与常用数据容器",
+      "掌握文件与 JSON 处理、异常处理、模块包管理、OOP 与类型注解"
+    ],
+    "detailsTitle": "Python基础课程清单",
+    "checklist": [
+      "基础语法、数据类型、控制流、函数",
+      "数据容器：列表、字典、集合、元组",
+      "文件读写、JSON 处理",
+      "异常处理",
+      "模块与包、第三方包安装",
+      "OOP：类、对象、封装、继承、多态",
+      "类型注解"
+    ]
+  },
+  "stage-2": {
+    "tasks": [
+      "理解大模型基础概念，并完成 Ollama、Chatbox 等基础工具搭建",
+      "掌握 Streamlit 基础能力，并完成本地聊天机器人页面实操"
+    ],
+    "detailsTitle": "大模型基础工具清单",
+    "checklist": [
+      "大模型核心概念、DeepSeek 与蒸馏模型",
+      "Ollama 本地部署（Windows）",
+      "Chatbox 前端部署",
+      "Streamlit 基础 API",
+      "Streamlit 开发对话网页",
+      "Ollama + Streamlit 聊天机器人（AI 伴侣项目）"
+    ]
+  },
+  "stage-3": {
+    "tasks": [
+      "掌握大模型 API 接口、会话记忆、提示词、Tools 与 LangChain 基础能力",
+      "掌握 Runnable、LCEL、OutputParser 与 RAG 检索增强生成完整链路",
+      "掌握 Agent 基础能力，包括 ReAct、Middleware、Tool 开发与 Agent 项目实践"
+    ],
+    "detailsTitle": "LangChain + RAG + Agent清单",
+    "checklist": [
+      "大模型 API 接口规范",
+      "会话记忆原理",
+      "编程调用大模型（DeepSeek / 阿里云百炼）",
+      "LangChain 核心概念与快速入门",
+      "初始化模型、调用模型",
+      "Message 消息类型",
+      "提示词工程",
+      "Tools 工具调用",
+      "预定义工具 Tavily 搜索",
+      "短期记忆",
+      "持久化存储",
+      "记忆管理策略",
+      "LangSmith 链路追踪与调试",
+      "Runnable接口",
+      "LCEL表达式",
+      "OutputParser",
+      "Embedding 向量化",
+      "CSVLoader",
+      "JSONLoader",
+      "TextLoader",
+      "PyPDFLoader",
+      "文档切分（TextSplitter）",
+      "VectorStore向量存储",
+      "向量检索",
+      "混合检索（BM25 + Vector）",
+      "基于检索构建Prompt",
+      "RunnablePassthrough",
+      "RAG工作流",
+      "RAG项目",
+      "RAG 评估框架 RAGAS（衡量检索质量、生成质量的量化指标，如 faithfulness、context precision）",
+      "Agent核心原理",
+      "ReAct框架",
+      "Middleware",
+      "Tool开发",
+      "Agent项目",
+      "Agent + RAG"
+    ]
+  },
+  "stage-4": {
+    "tasks": [
+      "掌握 FastAPI 基础能力，包括路由、请求参数、响应模型、Pydantic 与文件上传",
+      "掌握 PostgreSQL 基础能力，包括安装、连接、DDL、DML、JOIN、CTE、索引、JSONB 与事务",
+      "完成 FastAPI + PostgreSQL 项目实践"
+    ],
+    "detailsTitle": "FastAPI + PostgreSQL清单",
+    "checklist": [
+      "FastAPI基础",
+      "路由",
+      "请求参数",
+      "响应模型",
+      "Pydantic",
+      "文件上传",
+      "数据库连接",
+      "PostgreSQL安装",
+      "DDL",
+      "DML",
+      "JOIN",
+      "CTE",
+      "索引",
+      "JSONB",
+      "事务",
+      "FastAPI + PostgreSQL项目实践"
+    ]
+  },
+  "stage-5": {
+    "tasks": [
+      "掌握 Runtime、Middleware进阶、Function Calling、上下文工程与记忆管理进阶",
+      "掌握 Agent 与 RAG 的评估能力，以及 Agentic RAG 等进阶方向",
+      "掌握 LangGraph 的核心机制，包括 StateGraph、条件路由、循环、Map Reduce、Persistence 与 Human In The Loop",
+      "掌握单Agent、多Agent、Supervisor、Router 等工作流模式，并完成企业级 Agent 项目理解",
+      "完成尚硅谷 LangGraph 主课的 7 个模块练习：基础状态、控制流、持久化、中断、工具与流式、子图、图设计模式",
+      "完成一个可恢复的工具调用工作流：失败重试、人工审批、流式输出、检查点恢复均可演示"
+    ],
+    "detailsTitle": "LangGraph + Agent进阶清单",
+    "checklist": [
+      "Runtime",
+      "Middleware进阶",
+      "Function Calling",
+      "上下文工程",
+      "记忆管理进阶",
+      "Agent评估",
+      "Agentic RAG",
+      "RAG评估",
+      "LangGraph基本概念",
+      "Node",
+      "Edge",
+      "State",
+      "StateGraph",
+      "条件路由",
+      "循环",
+      "Map Reduce",
+      "Persistence",
+      "Human In The Loop",
+      "Time Travel",
+      "工具节点",
+      "单Agent工作流",
+      "多Agent工作流",
+      "Supervisor模式",
+      "Router模式",
+      "EmailAgent",
+      "Think In LangGraph",
+      "企业级Agent项目",
+      "图运行模型：superstep、节点并行与状态合并；能解释并行写入为什么需要 reducer",
+      "State 定义：TypedDict、dataclass、Pydantic 的适用边界；为消息列表和聚合字段正确配置 reducer",
+      "可靠控制流：Command、Send、动态扇出/扇入、循环上限、主动退出、retry、timeout 与错误处理",
+      "运行优化：节点缓存、全图默认配置；能说明哪些节点可缓存、哪些含副作用的节点不能缓存",
+      "检查点：thread_id、MemorySaver 与 PostgreSQL checkpointer；能查询历史状态、失败恢复和 fork/time travel",
+      "长期记忆与运行时上下文：区分跨会话 Store、单线程 checkpoint 与 Runtime context，不混用三者",
+      "动态 interrupt 与静态断点：审批、编辑、拒绝工具调用；恢复时保证节点逻辑具备幂等性",
+      "ToolNode、ToolRuntime 与 wrap_tool_call：工具 schema、运行时注入、工具异常 fallback 和权限边界",
+      "流式：updates、values、messages、custom 与 astream_events；前端消费时区分 token、状态和调试事件",
+      "子图：直接调用与编译为节点的差异；掌握 stateful/stateless 子图及其 checkpoint 继承策略",
+      "图设计模式：提示词链、路由、编排器-工作者、评估器-优化器、Agent；为每种模式写出适用条件",
+      "LangSmith：使用 trace 定位一次工具调用或状态流转问题；记录输入、输出、耗时和失败原因",
+      "阶段验收：实现“研究/检索 → 生成 → 评估 → 不通过则重试 → 人工审批工具调用 → 持久化恢复”的最小图应用"
+    ]
+  },
+  "stage-6": {
+    "tasks": [
+      "掌握 MCP 基础，包括原理、协议、SSE、Streamable HTTP、FastMCP、Server、Client 与 OAuth",
+      "掌握 Agent 接入 MCP 的方式，并补齐 Docker、Docker Compose 与 LLMOps 工程化能力",
+      "掌握项目部署、日志监控与生产环境运维"
+    ],
+    "detailsTitle": "MCP + 工程化部署清单",
+    "checklist": [
+      "MCP原理",
+      "MCP协议",
+      "SSE",
+      "Streamable HTTP",
+      "FastMCP",
+      "MCP Server",
+      "MCP Client",
+      "OAuth认证",
+      "Agent接入MCP",
+      "Docker",
+      "Docker Compose",
+      "LLMOps",
+      "pytest 单元测试基础（agent 工具函数、tool calling 逻辑的测试写法）",
+      "Prompt Injection 防御基础（输入过滤、工具调用权限分级的基本思路）",
+      "项目部署",
+      "日志监控",
+      "生产环境运维"
+    ]
+  },
+  "stage-7": {
+    "tasks": [
+      "补齐 Python 进阶基础，包括高级语法、面向对象进阶、异步编程与 Redis",
+      "补齐 Agent 方向资料与面试八股，包括 Hello-Agents、吴恩达Agent、AgentGuide、RAG 与 LangGraph",
+      "完成项目复盘、简历包装与面试准备"
+    ],
+    "detailsTitle": "查漏补缺与面试清单",
+    "checklist": [
+      "Python高级语法",
+      "面向对象进阶",
+      "异步编程",
+      "Redis",
+      "Hello-Agents",
+      "吴恩达Agent",
+      "AgentGuide",
+      "大模型八股",
+      "RAG八股",
+      "Agent八股",
+      "Agent Loop 设计：observe-think-act 循环、最大步数控制、停止条件、错误恢复",
+      "Context Engineering：上下文分层、压缩策略、token 成本控制",
+      "Tool Design：工具描述/schema 设计、调用失败的 fallback 机制",
+      "Memory System：working / episodic / semantic memory 的区别与召回策略",
+      "Eval 方法论：component eval、trajectory eval、end-to-end eval 的区别",
+      "LangGraph八股",
+      "项目复盘",
+      "简历包装",
+      "面试准备"
+    ]
+  },
+  "stage-8": {
+    "tasks": [
+      "完成一个端到端项目：用户提问 → RAG 检索 → LangGraph 编排（含循环/重试逻辑）→ 通过 MCP 调用至少一个外部工具 → FastAPI 暴露接口 → Docker 打包",
+      "项目要求代码全部自己写、能讲清楚每个技术选型的原因（尤其是\"为什么这里用 LangGraph 而不是纯 LangChain\"）",
+      "整理成简历项目描述，用可量化的表达方式（技术栈 + 具体指标，如\"工具调用成功率XX%，响应时长从X.Xs降至X.Xs\"）"
+    ],
+    "detailsTitle": "实习准备冲刺清单",
+    "checklist": [
+      "端到端项目：RAG → LangGraph → MCP → FastAPI → Docker",
+      "技术选型复盘文档",
+      "简历项目描述量化包装",
+      "项目讲解演练"
+    ]
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "stage-1": {
+    "tasks": [
+      "能独立创建 Python 项目、调用接口、读取配置、处理异常，并用 Git 管理代码",
+      "完成一个带简单 API 和测试的小程序，为后面的 RAG/Agent 项目打底"
+    ],
+    "detailsTitle": "Python 与开发基本功清单",
+    "checklist": [
+      "Python：函数、类、模块、异常、文件/JSON、类型注解；能看懂并修改项目代码",
+      "依赖与配置：虚拟环境、pip 或 uv、requirements/pyproject、.env；API Key 不写进代码和 Git",
+      "异步基础：async/await、await 的含义、并发请求、timeout；先理解，不追求复杂并发框架",
+      "Git：clone、status、add、commit、pull、push、分支和 .gitignore；每个练习项目都提交到 GitHub",
+      "主线分工：Python/FastAPI 负责 LLM、RAG、Agent、工具和记忆，投入约 70% 精力；Java/Spring Boot 负责传统业务 API，投入约 30% 精力，维持可开发、可协作的水平",
+      "Linux：目录、文件、权限、进程、端口、日志、环境变量；能排查“端口被占用”和“服务起不来”",
+      "HTTP：请求方法、状态码、Header、JSON、CORS、SSE；能用浏览器开发者工具或 curl 调试接口",
+      "pytest 入门：为一个普通函数和一个接口各写一个测试；AI 生成代码先运行测试再使用",
+      "阶段小作品：FastAPI 提供 2-3 个接口，读取 PostgreSQL 或本地 JSON，含 README 和启动说明"
+    ]
+  },
+  "stage-2": {
+    "tasks": [
+      "理解大模型应用最常用的概念，并能用云端 API 写出稳定的对话、结构化提取和工具调用程序",
+      "完成一个小型 LLM 助手，不追求复杂 Agent，只把输入、输出和错误处理做清楚"
+    ],
+    "detailsTitle": "大模型与 LangChain 基础清单",
+    "checklist": [
+      "基础概念：token、上下文窗口、temperature、流式输出、幻觉、Embedding；理解到能解释即可，不学模型训练",
+      "模型调用：DeepSeek 等 OpenAI-compatible API、环境变量、模型参数、invoke 与 stream",
+      "消息：SystemMessage、HumanMessage、AIMessage、ToolMessage；知道消息和普通字符串 Prompt 的区别",
+      "Prompt：角色、任务、约束、Few-shot、输出格式；用具体示例提升结果，不把提示词写成无边界长文",
+      "Runnable/LCEL：跟敲 prompt | model | parser，理解它只适合线性的无状态处理链",
+      "输出：StrOutputParser 的作用；JSON/Pydantic 结构化输出、字段校验和失败时的处理",
+      "工具：@tool、description、args_schema、Function Calling；工具参数和返回值必须清晰、可验证",
+      "基础可观测性：用 LangSmith 看一次模型调用的输入、输出、耗时和错误",
+      "阶段小作品：流式 LLM 助手，至少含一个结构化信息提取或工具调用功能"
+    ]
+  },
+  "stage-3": {
+    "tasks": [
+      "跑通“文档 → 切分 → 向量化 → 检索 → 回答”的 RAG 链路，并能解释每一步的作用",
+      "完成本地可运行的文档问答小项目，先把正确性和可解释性做好"
+    ],
+    "detailsTitle": "RAG 检索增强清单",
+    "checklist": [
+      "Loader：CSVLoader、JSONLoader、TextLoader、PyPDFLoader；理解 Document 的 page_content 和 metadata",
+      "JSONLoader：会用 jq_schema 选择嵌套 JSON 中需要加载的内容",
+      "文档清洗：删除明显噪声，保留文件名、页码、标题等来源信息",
+      "切分：CharacterTextSplitter 与 RecursiveCharacterTextSplitter；理解 chunk_size、chunk_overlap 如何影响检索",
+      "Embedding：知道文本为什么要向量化、余弦相似度的含义；查询和文档使用同一个嵌入模型",
+      "向量库：项目实现统一使用 PostgreSQL + pgvector；理解 Chroma、Milvus 的适用场景即可，不需要同时学习或维护多套向量库",
+      "检索：top-k、metadata 过滤、相似度阈值；能观察并解释取回了哪些文档",
+      "回答：把检索内容放入 Prompt，返回来源；没有可靠资料时让模型明确说不知道",
+      "检索原理与评估：理解召回、过滤、排序、上下文拼接、rerank 的职责；为 5-10 个问题记录检索好/坏案例，能说明原因而不只会调 LangChain",
+      "阶段小作品：本地文档问答机器人，支持加载文件、提问、显示回答来源"
+    ]
+  },
+  "stage-4": {
+    "tasks": [
+      "学习将项目做成后端服务所需的最小能力，把阶段三的 RAG 从本地脚本升级为 API 服务",
+      "完成 Docker 化的 RAG 服务，不要求一开始解决所有生产环境问题"
+    ],
+    "detailsTitle": "RAG 服务化清单",
+    "checklist": [
+      "FastAPI：路由、请求/响应模型、依赖注入、异常处理、文件上传和自动 API 文档",
+      "Python Agent 数据：PostgreSQL + pgvector 保存文档、Chunk、Embedding、分析结果与 Agent Checkpoint；不让 MySQL 承担向量检索",
+      "Java 业务数据：Spring Boot + MySQL 维护用户、角色/权限、订单式传统业务或文档元数据等普通 CRUD；学到能写清晰 API、联调和排错即可",
+      "数据库连接：先会用 SQLAlchemy 的基础查询和 session；迁移工具、复杂 ORM 用到再补",
+      "Redis：Java 业务服务与 Python Agent 服务共用，承担缓存、会话/短期状态和简单任务状态；明确 key 前缀与 TTL，不把 Redis 当永久数据库",
+      "异步任务：文档解析和向量化不要阻塞提问接口；先用 BackgroundTasks 跑通即可",
+      "pgvector：作为项目唯一的向量存储，完成向量列、相似度检索、metadata 过滤与索引的基础实现",
+      "Docker：Dockerfile、端口、数据卷和 Docker Compose；一条命令启动 API 与数据库",
+      "日志和错误：记录上传、索引、检索和模型调用失败的原因，方便自己排错",
+      "阶段作品：RAG 知识库服务，支持文件上传、索引、提问与引用来源；代码、README、Docker Compose 完整"
+    ]
+  },
+  "stage-5": {
+    "tasks": [
+      "掌握 LangGraph 的核心工作流能力，完成一个有状态、可恢复、能调用工具的单 Agent 项目",
+      "先追求流程可靠和自己能解释，不把多 Agent 当成必做项"
+    ],
+    "detailsTitle": "LangGraph Agent 工作流清单",
+    "checklist": [
+      "基本图：State、Node、Edge、START、END；用一个简单流程理解图是如何运行的",
+      "状态：TypedDict 或 Pydantic、reducer、messages；理解节点如何读取和更新状态",
+      "路由与循环：条件边、循环上限、失败分支和停止条件；避免 Agent 无限制调用工具",
+      "工具：ToolNode、工具调用结果、工具失败处理；让 Agent 使用已有的检索或查询工具",
+      "短期记忆：thread_id、State 中的消息、Checkpointer；理解同一会话如何继续执行",
+      "持久化：先用内存 Checkpointer 跑通，再使用 Python Agent 自己的 PostgreSQL Checkpointer；Java/MySQL 业务表与 Agent 状态表职责分离",
+      "Agent 设计原理：能解释规划、工具描述与参数校验、循环停止条件、短期/长期记忆和人工介入分别解决什么问题，而不只会调用框架 API",
+      "人工介入：interrupt 审批或拒绝一次有副作用的工具调用",
+      "流式：观察 token 输出和状态更新，理解前端显示时为什么要区分两者",
+      "阶段作品：Agent 能检索知识库、调用至少一个工具、保存会话、在关键操作前请求人工确认"
+    ]
+  },
+  "stage-6": {
+    "tasks": [
+      "理解 MCP 的核心概念，并让阶段五的 Agent 通过 MCP 使用一个外部工具或服务",
+      "完成一个整合 RAG、LangGraph 和 MCP 的项目版本，重点是功能闭环而不是堆基础设施"
+    ],
+    "detailsTitle": "MCP 与项目整合清单",
+    "checklist": [
+      "MCP 概念：Client、Server、Tool、Resource、Prompt 的职责；理解它解决的是工具接入标准化",
+      "通信：先跑通本地 stdio，再理解 SSE/Streamable HTTP 的使用场景",
+      "MCP Server：定义一个简单、安全、参数清楚的工具，例如查询日程、查询数据或读取受控文件",
+      "Agent 接入：将 MCP 工具接入 LangGraph Agent，观察模型选择工具、传参和接收结果的过程",
+      "安全意识：工具只给必要权限；对删除、发送、写入等副作用操作增加人工审批",
+      "基础部署：把项目用 Docker Compose 运行，知道如何看日志和重新启动服务",
+      "基础复盘：记录一次工具调用失败、检索失败或模型误用工具的原因和修复方式",
+      "阶段作品：RAG + LangGraph + MCP 的完整小应用，有 README、架构图和演示流程"
+    ]
+  },
+  "stage-7": {
+    "tasks": [
+      "从一个感兴趣且和现有项目有关的方向继续深入，不同时开启多个大方向",
+      "把选修能力作为已有项目的改进，而不是重新开始看一门完整课程"
+    ],
+    "detailsTitle": "按兴趣继续进阶清单",
+    "checklist": [
+      "多 Agent：完成单 Agent 后，再比较 Router、Supervisor 或 AutoGen；先回答为什么不能用单 Agent",
+      "本地模型：了解 Ollama、量化和显存/速度取舍；云端 API 主线不受影响",
+      "评测：为 RAG/Agent 添加更多问题、工具调用用例和回归测试，量化改动是否有效",
+      "多模态：为已有知识库增加 PDF OCR、图片或语音中的一个输入能力",
+      "搜索/数据库：只在项目真正遇到需求时选择 Elasticsearch、Neo4j 或 ClickHouse 其中一个",
+      "微调：了解 SFT、数据集与评测概念；不把模型训练当成 AI 应用开发的前置条件",
+      "开源阅读：选择正在使用的框架或项目，阅读一个模块、修一个小问题或补一段文档"
+      ,"Go：仅在 Java + Python 主线稳定后，按云原生/高并发方向补 Gin、并发、Docker/Kubernetes 基础；不是当前主线",
+      "Kotlin / Flutter：仅用于兴趣项目，不写入求职技能栈，不挤占 Java、Python/Agent 学习时间",
+      "Java 深度边界：当前不系统钻研 JVM 调优、GC 算法、分布式事务；在实习或秋招前按目标岗位再针对性补充"
+    ]
+  }
+}

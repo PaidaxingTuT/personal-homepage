@@ -1,0 +1,50 @@
+[
+  {
+    "id": "stage-1",
+    "phase": "阶段一",
+    "title": "Python基础",
+    "desc": "语言基础阶段，学完即可，无需反复回头。"
+  },
+  {
+    "id": "stage-2",
+    "phase": "阶段二",
+    "title": "大模型基础工具",
+    "desc": "先把本地模型和简单对话网页跑起来，形成 AI 应用开发手感。"
+  },
+  {
+    "id": "stage-3",
+    "phase": "阶段三",
+    "title": "LangChain + RAG + Agent",
+    "desc": "当前主线：先跑通 LangChain 与 RAG，再补上 Agent 基础能力。"
+  },
+  {
+    "id": "stage-4",
+    "phase": "阶段四",
+    "title": "FastAPI + PostgreSQL",
+    "desc": "把 RAG / Agent 能力封装成后端服务，并补齐数据库基础。"
+  },
+  {
+    "id": "stage-5",
+    "phase": "阶段五",
+    "title": "LangGraph + Agent进阶",
+    "desc": "进入 Agent 系统阶段，重点学习 LangGraph、多工具调用和多智能体协作。"
+  },
+  {
+    "id": "stage-6",
+    "phase": "阶段六",
+    "title": "MCP + 工程化部署",
+    "desc": "把 MCP、部署、监控和工程化能力补齐，做成可落地的完整项目。"
+  },
+  {
+    "id": "stage-7",
+    "phase": "阶段七",
+    "title": "查漏补缺与面试",
+    "desc": "补底层原理和面试短板，准备简历、项目讲解和实习投递。"
+  },
+  {
+    "id": "stage-8",
+    "phase": "阶段八",
+    "title": "实习准备冲刺",
+    "desc": "把所学整合成一个可以写进简历、讲清楚设计思路的完整项目。（可选阶段，有余力时展开）"
+  }
+]

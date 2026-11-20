@@ -1,0 +1,142 @@
+{
+  "stage-1": [
+    {
+      "title": "Python 基础",
+      "author": "黑马程序员",
+      "link": "https://www.bilibili.com/video/BV1sHU9BmEne/"
+    }
+  ],
+  "stage-2": [
+    {
+      "title": "Ollama 本地部署",
+      "author": "黑马程序员",
+      "link": "https://www.bilibili.com/video/BV1h1VbzHER2/"
+    },
+    {
+      "title": "Streamlit 入门",
+      "author": "黑马程序员",
+      "link": "https://www.bilibili.com/video/BV1sHU9BmEne/"
+    }
+  ],
+  "stage-3": [
+    {
+      "title": "LangChain 入门",
+      "author": "黑马程序员",
+      "link": "https://www.bilibili.com/video/BV178w1z7EHQ/"
+    },
+    {
+      "title": "RAG 开发",
+      "author": "黑马程序员",
+      "link": "https://www.bilibili.com/video/BV1yjz5BLEoY/"
+    },
+    {
+      "title": "路飞 AI 智能体",
+      "author": "路飞 AI",
+      "link": "https://pan.quark.cn/s/cd7af403ce01",
+      "note": "学习时留意课程是否使用了 LangChain 旧版 `AgentExecutor` / `initialize_agent()` API。如果是，理解其思路即可，实际编码改用 LangChain v1.0+ 的 `create_agent()`，因为 `AgentExecutor` 已进入维护期（预计2026年底弃用）。"
+    }
+  ],
+  "stage-4": [
+    {
+      "title": "FastAPI 从入门到实战",
+      "author": "黑马程序员",
+      "link": "https://www.bilibili.com/video/BV1zV2QBtE39/"
+    },
+    {
+      "title": "PostgreSQL 入门",
+      "author": "明文传输不",
+      "link": "https://www.bilibili.com/video/BV1aGyhBDEp9"
+    }
+  ],
+  "stage-5": [
+    {
+      "title": "尚硅谷 LangGraph 全面教程",
+      "author": "尚硅谷",
+      "link": "https://www.bilibili.com/video/BV1z3NY66EY1/",
+      "note": "作为本阶段主课。按“基础与状态 → 控制流 → 持久化 → 中断/HITL → 工具与流式 → 子图 → 图设计模式”推进；前 1-7 节环境搭建仅在本地环境尚未可用时观看。每个模块至少保留一个可运行示例，不要只看视频。"
+    },
+    {
+      "title": "LangGraph",
+      "author": "李宏毅",
+      "link": "https://www.bilibili.com/video/BV13roYBXELs"
+    },
+    {
+      "title": "吴恩达 Agent 课程",
+      "author": "吴恩达",
+      "link": "https://www.bilibili.com/video/BV1DfrdByE2H/"
+    },
+    {
+      "title": "Hello-Agents",
+      "author": "Hello-Agents",
+      "link": "https://datawhalechina.github.io/hello-agents/#/./README",
+      "note": "建议顺序：先完成本阶段 LangGraph 核心项目，再看 Hello-Agents 第七章\"从零构建 Agent 框架\"（ReAct 实现部分），对照理解 LangGraph 底层在解决什么问题。Part 3 后半段的 Agentic RL（模型训练相关章节）优先级放最低，非必需可跳过，因为超出应用层 Agent 工程师的核心范畴。"
+    }
+  ],
+  "stage-6": [
+    {
+      "title": "MCP 入门",
+      "author": "楼兰",
+      "link": "https://www.bilibili.com/video/BV1ZgArzqE4b"
+    },
+    {
+      "title": "Docker 入门",
+      "author": "黑马程序员",
+      "link": "https://www.bilibili.com/video/BV1HP4118797"
+    },
+    {
+      "title": "LLMOps 完整项目",
+      "author": "慕课网课 LLMOps",
+      "link": "https://pan.quark.cn/s/193030e44a71",
+      "note": "学习时核实课程发布时间。如果监控/可观测部分内容较旧，可用 OpenTelemetry + LangSmith 的现代方案作为参考补充，这是目前企业级 agent 可观测性的主流做法。"
+    }
+  ],
+  "stage-7": [
+    {
+      "title": "Python 面向对象进阶",
+      "author": "Python进阶-面向对象进阶",
+      "link": "https://www.bilibili.com/video/BV1sHU9BmEne/"
+    },
+    {
+      "title": "Python 高级语法",
+      "author": "Python高级语法",
+      "link": "https://www.bilibili.com/video/BV1Ex411x7Xn/"
+    },
+    {
+      "title": "丁师兄大模型训练营",
+      "author": "丁师兄大模型训练营",
+      "link": "https://pan.quark.cn/s/b752a30ac3e0"
+    },
+    {
+      "title": "AgentGuide",
+      "author": "AgentGuide",
+      "link": "https://github.com/adongwanai/AgentGuide"
+    },
+    {
+      "title": "AGENT 学习 Notion",
+      "author": "Notion",
+      "link": "https://www.notion.so/AGENT-32c8022e8edb80878c59d886e08262ca"
+    },
+    {
+      "title": "牛客讨论帖",
+      "author": "牛客",
+      "link": "https://www.nowcoder.com/discuss/847995166416703488?sourceSSR=users"
+    },
+    {
+      "title": "马士兵项目课",
+      "author": "马士兵",
+      "link": "https://www.bilibili.com/video/BV18KULB5EcP/"
+    },
+    {
+      "title": "面试宝典",
+      "author": "面试宝典",
+      "link": "https://pan.quark.cn/s/0e73a6b29ce0"
+    }
+  ],
+  "stage-8": [
+    {
+      "title": "无固定课程 — 自由项目实战",
+      "author": "自行整合",
+      "link": ""
+    }
+  ]
+}

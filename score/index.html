@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成绩查询</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://pdxstudio.top/img/favicon.ico" type="image/x-icon">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 60px auto 0;
+            background: #fff;
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid #e1e4e8;
+        }
+        .brand img { width: 40px; height: 40px; border-radius: 4px; }
+        .brand-text { font-size: 20px; font-weight: 700; color: #2c3e50; }
+
+        .controls-wrapper { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+        .controls-row { display: flex; gap: 10px; align-items: stretch; }
+        .input-group { flex: 1; min-width: 200px; }
+        .select-group { display: flex; gap: 10px; width: 100%; }
+        .select-group select { flex: 1; min-width: 0; }
+
+        input[type="text"], input[type="password"], select {
+            width: 100%; padding: 11px 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            box-sizing: border-box;
+            font-family: inherit; font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus, select:focus { border-color: #3498db; }
+
+        select {
+            padding: 11px 32px 11px 14px;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 12px center;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            font-size: 13px;
+            color: #333;
+        }
+
+        button {
+            padding: 11px 28px;
+            background: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            white-space: nowrap;
+            font-family: inherit;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        button:hover { background: #2980b9; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        button.course-detail {
+            background: none; color: #333; padding: 0; font-weight: 400;
+            font-size: 14px; white-space: normal; text-align: left;
+        }
+        button.course-detail:hover { background: none; color: #333; text-decoration: underline; }
+        button.course-detail.is-failed, button.course-detail.is-failed:hover { color: #e74c3c; }
+
+        .gpa-card {
+            background: #f8f9fa;
+            border: 1px solid #e1e4e8;
+            color: #333;
+            padding: 24px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: none;
+        }
+        .gpa-flex { display: flex; justify-content: space-around; text-align: center; }
+        .gpa-item h3 { font-size: 34px; margin: 0; font-weight: 700; color: #000; }
+        .gpa-item p { margin: 4px 0 0; color: #666; font-size: 13px; font-weight: 500; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 11px 14px; text-align: center; border-bottom: 1px solid #eee; }
+        th {
+            background: #f8f9fa;
+            color: #666;
+            font-weight: 600;
+            font-size: 13px;
+            border-bottom: 2px solid #e1e4e8;
+        }
+        td { font-size: 14px; }
+
+        .score-pass { color: #333; }
+        .score-excellent { color: #27ae60; font-weight: bold; }
+        .score-fail { color: #e74c3c; font-weight: bold; }
+        .score-remake { color: #3498db; font-weight: bold; }
+
+        .loading { text-align: center; color: #666; margin-top: 20px; display: none; font-size: 14px; }
+        .error-msg { color: #e74c3c; background: #fdedec; padding: 12px; border-radius: 4px; margin-bottom: 16px; display: none; font-size: 14px; }
+
+        @media (max-width: 640px) {
+            body { padding: 12px; }
+            .container { padding: 18px; margin-top: 16px; }
+            .brand { margin-bottom: 20px; padding-bottom: 14px; }
+            .brand img { width: 36px; height: 36px; }
+            .brand-text { font-size: 18px; }
+            .controls-wrapper { gap: 9px; margin-bottom: 18px; }
+            .select-group, .controls-row { flex-direction: column; gap: 9px; }
+            .input-group { min-width: 0; width: 100%; }
+            .controls-row > button { width: 100%; }
+            .gpa-card { padding: 18px 14px; margin-bottom: 18px; }
+            .gpa-flex { flex-direction: column; gap: 14px; }
+            .gpa-item h3 { font-size: 30px; }
+            #resultArea { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            #resultArea > table { min-width: 700px; margin-top: 0; }
+            #resultArea th, #resultArea td { padding: 10px 12px; }
+            #resultSection > div:nth-of-type(2) { margin-bottom: 12px !important; }
+            [data-sso-dialog] > div { max-height: calc(100vh - 24px); overflow-y: auto; }
+        }
+
+        @media (max-width: 380px) {
+            body { padding: 8px; }
+            .container { padding: 14px; }
+            .brand-text { font-size: 17px; }
+            .gpa-item h3 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand">
+        <img src="./logo.png" alt="聊城大学教务系统">
+        <div class="brand-text">成绩查询</div>
+    </div>
+
+    <div id="errorBox" class="error-msg"></div>
+
+    <div class="controls-wrapper">
+        <div class="select-group">
+<select id="xnSelect">
+<option value="">所有学年</option>
+</select>
+<select id="xqSelect">
+<option value="">所有学期</option>
+<option value="3">第一学期 (秋)</option>
+<option value="12">第二学期 (春)</option>
+<option value="16">短学期</option>
+</select>
+        </div>
+        <div class="controls-row">
+            <div class="input-group">
+<input type="text" id="jsessionidInput" placeholder="JSESSIONID">
+            </div>
+            <div class="input-group">
+<input type="text" id="routeInput" placeholder="route">
+            </div>
+            <button id="searchBtn" onclick="fetchGrades()">查询</button>
+        </div>
+    </div>
+
+    <div style="text-align:center; margin: 16px 0 20px; font-size:13px; color:#999; line-height:1.8;">
+        <span>您的信息仅用于本次查询，不会被保存至任何服务器，所有数据均来源于学校教务系统官方接口</span><br>
+        <span style="color:#bbb;">Cookie 会过期，如果查询失败请重新登录</span>
+    </div>
+
+<div id="resultSection" style="display: none;">
+
+    <div id="gpaBox" class="gpa-card">
+        <div class="gpa-flex">
+            <div class="gpa-item">
+                <h3 id="displayGpa">0.00</h3>
+                <p>平均学分绩点 (GPA)</p>
+            </div>
+            <div class="gpa-item">
+                <h3 id="displayCredits" style="color: #666;">0</h3> <p>获得总学分</p>
+            </div>
+            <div class="gpa-item">
+                <h3 id="displayPoints" style="color: #666;">0</h3>
+                <p>绩点总和</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align:center; margin-bottom:16px; font-size:12px; color:#bbb; line-height:1.8;">
+        <span><span style="color:#27ae60;font-weight:bold;">绿色</span> 优秀 · <span style="color:#e74c3c;font-weight:bold;">红色</span> 不及格 · <span style="color:#3498db;font-weight:bold;">蓝色</span> 补考/重修通过</span><br>
+        <span style="display:inline-block; margin-top:5px; color:#333; font-weight:700;">点击课程名称即可查看详细成绩</span>
+    </div>
+
+    <div id="loading" class="loading">正在查询中...</div>
+
+    <div id="resultArea" style="display: none;">
+        <table>
+            <thead>
+            <tr>
+                <th>学期</th>
+                <th>课程名称</th>
+                <th>学分</th>
+                <th>成绩</th>
+                <th>绩点</th>
+                <th>学分绩点</th>
+                <th>性质</th>
+            </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+<script>
+
+    window.addEventListener('load', function() {
+        initYears();
+
+        const savedJSessionId = localStorage.getItem('lcu_jsessionid');
+        const savedRoute = localStorage.getItem('lcu_route');
+        if (savedJSessionId) {
+            document.getElementById('jsessionidInput').value = savedJSessionId;
+        }
+        if (savedRoute) {
+            document.getElementById('routeInput').value = savedRoute;
+        }
+        if (savedJSessionId && savedRoute) {
+            fetchGrades();
+        }
+    });
+
+    function initYears() {
+        const select = document.getElementById('xnSelect');
+        const currentYear = new Date().getFullYear();
+        for (let i = 0; i < 5; i++) {
+            let year = currentYear - i;
+            let option = document.createElement('option');
+            option.value = year;
+            option.text = `${year}-${year+1}学年`;
+            select.appendChild(option);
+        }
+    }
+
+    async function fetchGrades() {
+        const jsessionid = document.getElementById('jsessionidInput').value.trim();
+        const route = document.getElementById('routeInput').value.trim();
+        const xnm = document.getElementById('xnSelect').value;
+        const xqm = document.getElementById('xqSelect').value;
+
+        const btn = document.getElementById('searchBtn');
+        const loading = document.getElementById('loading');
+        const resultSection = document.getElementById('resultSection');
+        const resultArea = document.getElementById('resultArea');
+        const gpaBox = document.getElementById('gpaBox');
+        const errorBox = document.getElementById('errorBox');
+
+        errorBox.style.display = 'none';
+        resultSection.style.display = 'none';
+        resultArea.style.display = 'none';
+        gpaBox.style.display = 'none';
+
+        if (false && (!jsessionid || !route)) {
+            showError("请同时填写 JSESSIONID 和 route！");
+            return;
+        }
+
+        const cookie = jsessionid && route ? `JSESSIONID=${jsessionid}; route=${route}` : '';
+
+        btn.disabled = true;
+        btn.innerText = "查询中...";
+        loading.style.display = 'block';
+
+        try {
+            const formData = new FormData();
+            if (cookie) formData.append('cookie', cookie);
+            formData.append('xnm', xnm);
+            formData.append('xqm', xqm);
+
+            const response = await fetch('../api/score.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'error') {
+                if(data.msg.includes('过期') || data.msg.includes('异常')) {
+                    localStorage.removeItem('lcu_jsessionid');
+                    localStorage.removeItem('lcu_route');
+                }
+                throw new Error(data.msg);
+            }
+
+            localStorage.setItem('lcu_jsessionid', jsessionid);
+            localStorage.setItem('lcu_route', route);
+
+            if (data.items && data.items.length > 0) {
+                renderTable(data.items);
+                renderGPA(data.calculated_data);
+                resultSection.style.display = 'block';
+                resultArea.style.display = 'block';
+                gpaBox.style.display = 'block';
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                showError("查询成功，但该时间段内没有成绩数据。");
+            }
+
+        } catch (err) {
+            showError(err.message || "请求失败");
+        } finally {
+            loading.style.display = 'none';
+            btn.disabled = false;
+            btn.innerText = "查询";
+        }
+    }
+
+    function renderGPA(data) {
+        if(!data) return;
+
+        const gpaValue = parseFloat(data.average_gpa);
+        const gpaEl = document.getElementById('displayGpa');
+
+        gpaEl.innerText = data.average_gpa;
+
+        if (gpaValue < 2.0) {
+            gpaEl.style.color = '#e74c3c';
+        } else if (gpaValue > 4.0) {
+            gpaEl.style.color = '#27ae60';
+        } else {
+            gpaEl.style.color = '#000';
+        }
+
+        document.getElementById('displayCredits').innerText = data.total_credits;
+        document.getElementById('displayPoints').innerText = data.total_credit_points;
+    }
+
+    function renderTable(items) {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        const xqMap = {3: {label: '秋', yearOffset: 0}, 12: {label: '春', yearOffset: 1}, 16: {label: '短学期', yearOffset: 1}};
+        const semColors = {3: '#c9a86c', 12: '#80b58a', 16: '#999'};
+        const semBg = {3: '#f5efdf', 12: '#eaf3eb', 16: '#f0f0f0'};
+
+        // 找出补考/重修记录
+        const retakeItems = {};
+        items.forEach(item => {
+            if (item.ksxz && (item.ksxz.includes('补考') || item.ksxz.includes('重修'))) {
+                retakeItems[item.kcmc] = item;
+            }
+        });
+
+        // 按原顺序渲染，跳过不及格的原记录，在其位置插入重修记录
+        items.forEach(item => {
+            const score = parseFloat(item.cj);
+
+            // 跳过有补考/重修的原始不及格记录，在同一个位置渲染重修记录
+            if (retakeItems[item.kcmc] && !isNaN(score) && score < 60) {
+                const retakeItem = retakeItems[item.kcmc];
+                const tr = document.createElement('tr');
+                const xfjd = retakeItem.xfjd !== undefined ? retakeItem.xfjd : (parseFloat(retakeItem.xf) * parseFloat(retakeItem.jd)).toFixed(1);
+
+                // 找补考记录的原始学期
+                let retakeXnm = retakeItem.xnm, retakeXqm = retakeItem.xqm;
+                items.forEach(orig => {
+                    if (orig.kcmc === retakeItem.kcmc && (!orig.ksxz || orig.ksxz === '正常考试')) {
+                        retakeXnm = orig.xnm;
+                        retakeXqm = orig.xqm;
+                    }
+                });
+                const rXqInfo = xqMap[retakeXqm] || {};
+                const rLabel = retakeXnm ? `${parseInt(retakeXnm) + (rXqInfo.yearOffset || 0)} ${rXqInfo.label}` : '';
+
+                tr.innerHTML = `
+                    <td><span style="font-size:12px; background:${semBg[retakeXqm] || '#f0f0f0'}; color:${semColors[retakeXqm] || '#999'}; padding:2px 8px; border-radius:4px; white-space:nowrap;">${rLabel}</span></td>
+                    <td>${retakeItem.kcmc}</td>
+                    <td>${retakeItem.xf}</td>
+                    <td class="score-remake">60</td>
+                    <td>${retakeItem.jd}</td>
+                    <td>${xfjd}</td>
+                    <td><span style="font-size:12px; background:#eee; padding:2px 8px; border-radius:4px; color:#555;">${retakeItem.kcxzmc}</span></td>
+                `;
+                attachCourseDetail(tr, retakeItem);
+                tbody.appendChild(tr);
+                return;
+            }
+
+            // 跳过补考/重修记录本身（已在上面处理）
+            if (retakeItems[item.kcmc] && item.ksxz && (item.ksxz.includes('补考') || item.ksxz.includes('重修'))) return;
+
+            const tr = document.createElement('tr');
+            let scoreClass = 'score-pass';
+
+            if (!isNaN(score)) {
+                if (score < 60) {
+                    scoreClass = 'score-fail';
+                } else if (score >= 90) {
+                    scoreClass = 'score-excellent';
+                }
+            } else {
+                if (item.cj.includes("不及格") || item.cj.includes("不通过")) {
+                    scoreClass = 'score-fail';
+                }
+            }
+
+            const xfjd = item.xfjd !== undefined ? item.xfjd : (parseFloat(item.xf) * parseFloat(item.jd)).toFixed(1);
+            const xqInfo = xqMap[item.xqm] || {};
+            const semesterLabel = item.xnm ? `${parseInt(item.xnm) + (xqInfo.yearOffset || 0)} ${xqInfo.label}` : '';
+            const semColor = semColors[item.xqm] || '#999';
+            const semBgColor = semBg[item.xqm] || '#f0f0f0';
+
+            tr.innerHTML = `
+                <td><span style="font-size:12px; background:${semBgColor}; color:${semColor}; padding:2px 8px; border-radius:4px; white-space:nowrap;">${semesterLabel}</span></td>
+                <td>${item.kcmc}</td>
+                <td>${item.xf}</td>
+                <td class="${scoreClass}">${item.cj}</td>
+                <td>${item.jd}</td>
+                <td>${xfjd}</td>
+                <td><span style="font-size:12px; background:#eee; padding:2px 8px; border-radius:4px; color:#555;">${item.kcxzmc}</span></td>
+            `;
+            attachCourseDetail(tr, item);
+            tbody.appendChild(tr);
+        });
+    }
+
+    function attachCourseDetail(row, item) {
+        const cell = row.children[1];
+        if (!cell) return;
+        cell.replaceChildren();
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'course-detail';
+        const score = parseFloat(item.cj);
+        if ((!isNaN(score) && score < 60) || (typeof item.cj === 'string' && (item.cj.includes('不及格') || item.cj.includes('不通过')))) {
+            button.classList.add('is-failed');
+        }
+        button.textContent = item.kcmc || '未命名课程';
+        button.addEventListener('click', () => openScoreDetail(item));
+        cell.appendChild(button);
+    }
+
+    const SCORE_DETAIL_CACHE_KEY = 'lcu_score_detail_cache_v1';
+    const SCORE_DETAIL_CACHE_TTL = 12 * 60 * 60 * 1000;
+    let scoreDetailCache;
+    const pendingScoreDetails = new Map();
+
+    function getScoreDetailKey(item) {
+        if (!item.jxb_id) return '';
+        return `${item.xh_id || item.xh || 'student'}:${item.jxb_id}`;
+    }
+
+    function getScoreDetailCache() {
+        if (scoreDetailCache) return scoreDetailCache;
+        try {
+            scoreDetailCache = JSON.parse(localStorage.getItem(SCORE_DETAIL_CACHE_KEY) || '{}');
+        } catch (_) {
+            scoreDetailCache = {};
+        }
+        return scoreDetailCache;
+    }
+
+    function getCachedScoreDetail(item) {
+        const entry = getScoreDetailCache()[getScoreDetailKey(item)];
+        return entry && entry.expiresAt > Date.now() ? entry.data : null;
+    }
+
+    function cacheScoreDetail(item, data) {
+        const key = getScoreDetailKey(item);
+        if (!key) return;
+        const cache = getScoreDetailCache();
+        cache[key] = { data, cachedAt: Date.now(), expiresAt: Date.now() + SCORE_DETAIL_CACHE_TTL };
+        const entries = Object.entries(cache).sort(([, a], [, b]) => a.cachedAt - b.cachedAt);
+        while (entries.length > 150) delete cache[entries.shift()[0]];
+        try {
+            localStorage.setItem(SCORE_DETAIL_CACHE_KEY, JSON.stringify(cache));
+        } catch (_) {
+            // Cache failures must not prevent the live detail request from succeeding.
+        }
+    }
+
+    async function requestScoreDetail(item) {
+        const cached = getCachedScoreDetail(item);
+        if (cached) return cached;
+        if (!item.jxb_id) throw new Error('该课程没有可用的成绩详情标识。');
+        const key = getScoreDetailKey(item);
+        if (pendingScoreDetails.has(key)) return pendingScoreDetails.get(key);
+        const request = (async () => {
+            const form = new FormData();
+            const jsessionid = document.getElementById('jsessionidInput').value.trim();
+            const route = document.getElementById('routeInput').value.trim();
+            if (jsessionid && route) form.append('cookie', `JSESSIONID=${jsessionid}; route=${route}`);
+            form.append('record', JSON.stringify(item));
+            const response = await fetch('../api/score_detail.php', { method: 'POST', body: form });
+            const result = await response.json();
+            if (result.status !== 'ok') throw new Error(result.msg);
+            cacheScoreDetail(item, result.data);
+            return result.data;
+        })();
+        pendingScoreDetails.set(key, request);
+        try {
+            return await request;
+        } finally {
+            pendingScoreDetails.delete(key);
+        }
+    }
+
+    async function openScoreDetail(item) {
+        if (!item.jxb_id) {
+            showError('该课程暂不支持查看成绩详情。');
+            return;
+        }
+        const dialog = document.createElement('div');
+        dialog.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10001;display:flex;align-items:center;justify-content:center;padding:20px;';
+        dialog.innerHTML = '<div style="background:#fff;width:min(620px,100%);max-height:80vh;overflow:auto;padding:26px;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.2);position:relative;"><button type="button" aria-label="关闭" style="position:absolute;right:12px;top:10px;background:none;color:#666;padding:4px 9px;font-size:22px;">&times;</button><h2 style="font-size:18px;margin:0 28px 6px 0;color:#2c3e50;"></h2><div class="detail-content" style="font-size:14px;color:#666;padding-top:14px;">正在查询成绩详情...</div></div>';
+        const panel = dialog.querySelector('.detail-content');
+        dialog.querySelector('h2').textContent = item.kcmc || '成绩详情';
+        dialog.querySelector('button').addEventListener('click', () => dialog.remove());
+        dialog.addEventListener('click', event => {
+            if (event.target === dialog) dialog.remove();
+        });
+        document.body.appendChild(dialog);
+        try {
+            renderScoreDetail(panel, await requestScoreDetail(item));
+        } catch (error) {
+            panel.textContent = error.message || '成绩详情查询失败。';
+        }
+    }
+
+    function renderScoreDetail(panel, data) {
+        if (Array.isArray(data?.items) && data.items[0]?.name !== undefined) {
+            const table = document.createElement('table');
+            table.style.marginTop = '0';
+            const header = document.createElement('thead');
+            header.innerHTML = '<tr><th>成绩分项</th><th>成绩分项比例</th><th>成绩</th></tr>';
+            const body = document.createElement('tbody');
+            data.items.forEach(item => {
+                const row = document.createElement('tr');
+                ['name', 'ratio', 'score'].forEach(key => {
+                    const cell = document.createElement('td');
+                    const value = key === 'name' ? String(item[key] || '-').replace(/[【】]/g, '').trim() : item[key] || '-';
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+                body.appendChild(row);
+            });
+            table.append(header, body);
+            panel.replaceChildren(table);
+            return;
+        }
+        const source = Array.isArray(data)
+            ? data[0]
+            : (data.items?.[0] || data.rows?.[0] || data.list?.[0] || data.xsKccjList?.[0] || data.data || data);
+        if (!source || typeof source !== 'object') {
+            panel.textContent = '未获取到成绩详情。';
+            return;
+        }
+        const labels = { pscj: '平时成绩', qzcj: '期中成绩', qmkscj: '期末成绩', cj: '总评成绩', jycj: '卷一成绩', jybkcj: '卷一补考成绩', kcmc: '课程名称', kcdm: '课程代码', xf: '学分', jd: '绩点', xfjd: '学分绩点', khfsmc: '考核方式', cjbz: '成绩备注' };
+        const rows = Object.entries(source).filter(([, value]) => value !== null && value !== '' && ['string', 'number', 'boolean'].includes(typeof value));
+        if (!rows.length) {
+            panel.textContent = '教务系统未提供可展示的成绩构成。';
+            return;
+        }
+        const table = document.createElement('table');
+        table.style.marginTop = '0';
+        const body = document.createElement('tbody');
+        rows.forEach(([key, value]) => {
+            const row = document.createElement('tr');
+            const label = document.createElement('th');
+            const score = document.createElement('td');
+            label.textContent = labels[key] || key;
+            score.textContent = String(value);
+            row.append(label, score);
+            body.appendChild(row);
+        });
+        table.appendChild(body);
+        panel.replaceChildren(table);
+    }
+
+    function showError(msg) {
+        const errorBox = document.getElementById('errorBox');
+        errorBox.innerText = msg;
+        errorBox.style.display = 'block';
+    }
+
+    function showTutorial() {
+        const el = document.createElement('div');
+        el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;';
+        const close = () => el.remove();
+        el.innerHTML = `
+            <div style="background:#fff;border-radius:8px;padding:30px;max-width:480px;width:90%;box-shadow:0 8px 30px rgba(0,0,0,0.15);position:relative;">
+                <button onclick="this.closest('div').parentElement.remove()" style="position:absolute;top:10px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#999;">&times;</button>
+                <h3 style="margin:0 0 16px;color:#333;font-size:16px;">如何获取 JSESSIONID 和 route</h3>
+                <ol style="margin:0;padding-left:20px;color:#555;font-size:14px;line-height:1.8;">
+                    <li>打开 <a href="https://one.lcu.edu.cn/" target="_blank" style="color:#3498db;">one.lcu.edu.cn</a> 登录数字聊大</li>
+                    <li>在数字聊大上方导航栏点击 <strong>应用中心</strong></li>
+                    <li>在应用中心找到 <strong>教学科研</strong> 并点击</li>
+                    <li>点击 <strong>教务系统</strong></li>
+                    <li>进入教务系统后，按 <kbd style="background:#eee;padding:2px 6px;border-radius:3px;border:1px solid #ddd;">F12</kbd> 打开开发者工具</li>
+                    <li>切换到 <strong>Application</strong>（应用程序）标签页</li>
+                    <li>左侧找到 <strong>Cookies</strong> → <strong>jwxt.lcu.edu.cn</strong></li>
+                    <li>复制 <strong>JSESSIONID</strong> 和 <strong>route</strong> 的值粘贴到上方输入框即可</li>
+                </ol>
+                <p style="margin:16px 0 0;font-size:12px;color:#999;">Cookie 仅用于本次查询，不会被保存到服务器。</p>
+            </div>
+        `;
+        document.body.appendChild(el);
+    }
+</script>
+
+<script src="https://sso.lcu.edu.cn/tpass/comm/js/des.js"></script>
+<script>
+    async function ssoRequest(action, values = {}) {
+        const form = new FormData();
+        form.append('action', action);
+        Object.entries(values).forEach(([key, value]) => form.append(key, value));
+        const response = await fetch('../api/login.php', { method: 'POST', body: form });
+        const data = await response.json();
+        if (data.status === 'error') throw new Error(data.msg);
+        return data;
+    }
+
+    function showSsoLogin() {
+        const dialog = document.createElement('div');
+        dialog.dataset.ssoDialog = 'true';
+        dialog.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;';
+        dialog.innerHTML = `<div style="background:#fff;width:min(400px,100%);padding:26px;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.2);position:relative;">
+            <button type="button" aria-label="关闭" style="position:absolute;right:12px;top:10px;background:none;color:#666;padding:4px 9px;font-size:22px;" onclick="this.closest('[data-sso-dialog]').remove()">&times;</button>
+            <h2 style="font-size:18px;margin:0 0 8px;color:#2c3e50;">统一身份认证</h2>
+            <p id="ssoHint" style="font-size:13px;color:#666;margin:0 0 18px;">账号和密码仅在当前浏览器中加密后提交至学校认证服务。</p>
+            <form id="ssoCredentials"><input id="ssoUsername" type="text" autocomplete="username" placeholder="学号" required style="margin-bottom:10px;"><input id="ssoPassword" type="password" autocomplete="current-password" placeholder="密码" required style="margin-bottom:14px;"><button id="ssoPasswordSubmit" type="submit" style="width:100%;">发送短信验证码</button></form>
+            <form id="ssoSms" style="display:none;"><input id="ssoCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 位短信验证码" required style="margin-bottom:14px;letter-spacing:3px;"><button id="ssoCodeSubmit" type="submit" style="width:100%;">验证并登录</button></form>
+        </div>`;
+        document.body.appendChild(dialog);
+        const hint = dialog.querySelector('#ssoHint');
+        const credentialForm = dialog.querySelector('#ssoCredentials');
+        const smsForm = dialog.querySelector('#ssoSms');
+        credentialForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            const username = dialog.querySelector('#ssoUsername').value.trim();
+            const password = dialog.querySelector('#ssoPassword').value;
+            const submit = dialog.querySelector('#ssoPasswordSubmit');
+            if (!username || !password) return;
+            if (typeof strEnc !== 'function') { hint.textContent = '无法加载学校加密脚本，请检查网络后重试。'; return; }
+            submit.disabled = true;
+            try {
+                hint.textContent = '正在连接统一身份认证服务...';
+                const params = await ssoRequest('start');
+                const rsa = strEnc(username + password + params.lt, '1', '2', '3');
+                const passwordLength = dialog.querySelector('#ssoPassword').value.length;
+                dialog.querySelector('#ssoPassword').value = '';
+                await ssoRequest('password', { rsa, ul: String(username.length), pl: String(passwordLength) });
+                credentialForm.style.display = 'none';
+                smsForm.style.display = 'block';
+                hint.textContent = '短信验证码已发送，请输入验证码。';
+                dialog.querySelector('#ssoCode').focus();
+            } catch (error) {
+                hint.textContent = error.message || '登录失败，请重试。';
+                submit.disabled = false;
+            }
+        });
+        smsForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            const submit = dialog.querySelector('#ssoCodeSubmit');
+            submit.disabled = true;
+            try {
+                hint.textContent = '正在验证并进入教务系统...';
+                const loginResult = await ssoRequest('sms', { code: dialog.querySelector('#ssoCode').value.trim() });
+                document.getElementById('jsessionidInput').value = loginResult.jsessionid || '';
+                document.getElementById('routeInput').value = loginResult.route || '';
+                dialog.remove();
+                fetchGrades();
+            } catch (error) {
+                hint.textContent = error.message || '验证码验证失败，请重试。';
+                submit.disabled = false;
+            }
+        });
+        dialog.querySelector('#ssoUsername').focus();
+    }
+
+    window.addEventListener('load', () => {
+        const searchButton = document.getElementById('searchBtn');
+        if (searchButton) searchButton.insertAdjacentHTML('afterend', '<button type="button" onclick="showSsoLogin()">统一认证登录</button>');
+    });
+</script>
+<script src="https://sso.lcu.edu.cn/tpass/comm/js/qrcode.js"></script>
+<script>
+    function applyLoginResult(result, dialog) {
+        document.getElementById('jsessionidInput').value = result.jsessionid || '';
+        document.getElementById('routeInput').value = result.route || '';
+        dialog.remove();
+        fetchGrades();
+    }
+
+    function showSsoLogin() {
+        const dialog = document.createElement('div');
+        let qrTimer = null;
+        let qrExpiresTimer = null;
+        let qrGeneration = 0;
+        const qrRefreshes = [];
+        const close = () => {
+            qrGeneration += 1;
+            if (qrTimer) clearInterval(qrTimer);
+            if (qrExpiresTimer) clearTimeout(qrExpiresTimer);
+            dialog.remove();
+        };
+        dialog.dataset.ssoDialog = 'true';
+        dialog.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;';
+        dialog.innerHTML = `<div style="background:#fff;width:min(400px,100%);padding:26px;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.2);position:relative;">
+            <button id="ssoClose" type="button" aria-label="关闭" style="position:absolute;right:12px;top:10px;background:none;color:#666;padding:4px 9px;font-size:22px;">&times;</button>
+            <h2 style="font-size:18px;margin:0 0 14px;color:#2c3e50;">统一身份认证</h2>
+            <div style="display:flex;border-bottom:1px solid #e1e4e8;margin-bottom:18px;">
+                <button type="button" data-sso-tab="qr" style="flex:1;background:none;color:#3498db;border-bottom:2px solid #3498db;padding:9px;">企业微信扫码</button>
+                <button type="button" data-sso-tab="password" style="flex:1;background:none;color:#666;padding:9px;">账号密码</button>
+            </div>
+            <p id="ssoHint" style="font-size:13px;color:#666;margin:0 0 16px;text-align:center;">正在生成企业微信登录二维码...</p>
+            <section id="ssoQrPanel" style="text-align:center;"><div id="ssoQrCode" style="display:inline-block;min-height:153px;"></div><button id="ssoRefreshQr" type="button" style="display:block;margin:14px auto 0;">刷新二维码</button></section>
+            <section id="ssoPasswordPanel" style="display:none;"><form id="ssoCredentials"><input id="ssoUsername" type="text" autocomplete="username" placeholder="学号" required style="margin-bottom:10px;"><input id="ssoPassword" type="password" autocomplete="current-password" placeholder="密码" required style="margin-bottom:14px;"><button id="ssoPasswordSubmit" type="submit" style="width:100%;">发送短信验证码</button></form><form id="ssoSms" style="display:none;"><input id="ssoCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 位短信验证码" required style="margin-bottom:14px;letter-spacing:3px;"><button id="ssoCodeSubmit" type="submit" style="width:100%;">验证并登录</button></form></section>
+        </div>`;
+        document.body.appendChild(dialog);
+        const hint = dialog.querySelector('#ssoHint');
+        const qrPanel = dialog.querySelector('#ssoQrPanel');
+        const passwordPanel = dialog.querySelector('#ssoPasswordPanel');
+        const tabs = dialog.querySelectorAll('[data-sso-tab]');
+        const selectTab = tab => {
+            qrPanel.style.display = tab === 'qr' ? 'block' : 'none';
+            passwordPanel.style.display = tab === 'password' ? 'block' : 'none';
+            tabs.forEach(button => {
+                const active = button.dataset.ssoTab === tab;
+                button.style.color = active ? '#3498db' : '#666';
+                button.style.borderBottom = active ? '2px solid #3498db' : '2px solid transparent';
+            });
+            if (tab === 'password') dialog.querySelector('#ssoUsername').focus();
+        };
+        tabs.forEach(button => button.addEventListener('click', () => selectTab(button.dataset.ssoTab)));
+        dialog.querySelector('#ssoClose').addEventListener('click', close);
+
+        const startQr = async (manualRefresh = false) => {
+            const refreshButton = dialog.querySelector('#ssoRefreshQr');
+            if (manualRefresh) {
+                const now = Date.now();
+                while (qrRefreshes.length && now - qrRefreshes[0] > 180000) qrRefreshes.shift();
+                if (qrRefreshes.length >= 3) {
+                    hint.textContent = 'Refresh limit reached. Please try again later.';
+                    return;
+                }
+                qrRefreshes.push(now);
+                refreshButton.disabled = true;
+                setTimeout(() => { if (dialog.isConnected) refreshButton.disabled = false; }, 5000);
+            }
+            const generation = ++qrGeneration;
+            if (qrTimer) clearInterval(qrTimer);
+            if (qrExpiresTimer) clearTimeout(qrExpiresTimer);
+            const target = dialog.querySelector('#ssoQrCode');
+            target.replaceChildren();
+            hint.textContent = '正在生成企业微信登录二维码...';
+            try {
+                const result = await ssoRequest('qr_start');
+                if (generation !== qrGeneration || !dialog.isConnected) return;
+                if (typeof QRCode !== 'function') throw new Error('无法加载二维码组件，请检查网络后重试。');
+                target.replaceChildren();
+                new QRCode(target, { text: result.qr_url, width: 153, height: 153 });
+                hint.textContent = '请使用企业微信扫描二维码并在手机上确认。';
+                qrTimer = setInterval(async () => {
+                    try {
+                        const status = await ssoRequest('qr_status');
+                        if (generation !== qrGeneration || !dialog.isConnected) return;
+                        if (status.status === 'ok') {
+                            clearInterval(qrTimer);
+                            applyLoginResult(status, dialog);
+                        }
+                    } catch (error) {
+                        if (generation !== qrGeneration || !dialog.isConnected) return;
+                        clearInterval(qrTimer);
+                        hint.textContent = error.message || '扫码登录失败，请刷新二维码。';
+                    }
+                }, 3000);
+                qrExpiresTimer = setTimeout(() => {
+                    if (qrTimer) clearInterval(qrTimer);
+                    hint.textContent = '二维码已失效，请刷新后重试。';
+                }, 180000);
+            } catch (error) {
+                hint.textContent = error.message || '二维码生成失败，请重试。';
+            }
+        };
+        dialog.querySelector('#ssoRefreshQr').addEventListener('click', () => startQr(true));
+        dialog.querySelector('#ssoCredentials').addEventListener('submit', async event => {
+            event.preventDefault();
+            const username = dialog.querySelector('#ssoUsername').value.trim();
+            const password = dialog.querySelector('#ssoPassword').value;
+            const submit = dialog.querySelector('#ssoPasswordSubmit');
+            if (!username || !password) return;
+            if (typeof strEnc !== 'function') { hint.textContent = '无法加载学校加密脚本，请检查网络后重试。'; return; }
+            submit.disabled = true;
+            try {
+                hint.textContent = '正在连接统一身份认证服务...';
+                const params = await ssoRequest('start');
+                const rsa = strEnc(username + password + params.lt, '1', '2', '3');
+                const passwordLength = password.length;
+                dialog.querySelector('#ssoPassword').value = '';
+                await ssoRequest('password', { rsa, ul: String(username.length), pl: String(passwordLength) });
+                dialog.querySelector('#ssoCredentials').style.display = 'none';
+                dialog.querySelector('#ssoSms').style.display = 'block';
+                hint.textContent = '短信验证码已发送，请输入验证码。';
+                dialog.querySelector('#ssoCode').focus();
+            } catch (error) {
+                hint.textContent = error.message || '登录失败，请重试。';
+                submit.disabled = false;
+            }
+        });
+        dialog.querySelector('#ssoSms').addEventListener('submit', async event => {
+            event.preventDefault();
+            const submit = dialog.querySelector('#ssoCodeSubmit');
+            submit.disabled = true;
+            try {
+                hint.textContent = '正在验证并进入教务系统...';
+                applyLoginResult(await ssoRequest('sms', { code: dialog.querySelector('#ssoCode').value.trim() }), dialog);
+            } catch (error) {
+                hint.textContent = error.message || '验证码验证失败，请重试。';
+                submit.disabled = false;
+            }
+        });
+        startQr();
+    }
+</script>
+</body>
+</html>

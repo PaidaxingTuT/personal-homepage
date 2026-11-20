@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="SuperTodo 超级清单：支持场景化分类、AI 速记、拖拽排序与本地备份的 Android 待办应用。"
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <title>SuperTodo 超级清单</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0&family=Noto+Sans+SC:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="assets/app-icon.png" type="image/png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="主导航">
+        <a class="brand" href="#top" aria-label="SuperTodo 首页">
+          <img src="assets/app-icon.png" alt="" />
+          <span>SuperTodo</span>
+        </a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero shell">
+        <div class="hero-copy">
+          <h1>SuperTodo <span>超级清单</span></h1>
+          <p class="lead">
+            把购物、待办、计划与愿望收进一套清晰的场景化清单。<br />专注本地、快速记录，也支持 AI 帮你整理。
+          </p>
+          <div class="hero-actions">
+            <a
+              class="button primary is-loading"
+              id="downloadButton"
+              aria-disabled="true"
+              href="https://github.com/PaidaxingTuT/SuperTodo/releases/latest"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">download</span>
+              <span>下载 APK</span>
+            </a>
+            <a
+              class="button secondary"
+              href="https://github.com/PaidaxingTuT/SuperTodo"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">code</span>
+              <span>查看源代码</span>
+            </a>
+          </div>
+        </div>
+        <figure class="hero-media">
+          <img
+            src="assets/screenshots/title.png"
+            alt="SuperTodo 超级清单应用界面预览"
+            width="1693"
+            height="929"
+          />
+        </figure>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

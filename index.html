@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="派大星工作室 — Go / Python / AI。" />
+    <meta name="theme-color" content="#05060f" />
+    <title>派大星工作室 - Paidaxing Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@900&family=Instrument+Serif:ital@1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- 展示胎记 ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣼⣇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⣾⠏⢿⣧⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢠⣾⠟⠄⠈⢻⣦⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⣀⣀⠄⠄⠄⠄⢠⣾⠛⠄⢀⡀⠄⠻⣷⡀⠄⠄⠄⢀⣀⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⣀⣴⣾⠟⠻⢷⣶⠄⢰⣾⠏⢀⣶⠿⢷⣶⣄⡉⠳⠄⠰⡾⠿⠛⠿⣷⣤⣀⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⢸⣿⠁⠄⣤⡤⠄⠄⠄⢻⣷⣤⡈⠄⠄⠄⠈⠛⠿⣷⣤⡀⠄⠄⣦⣄⠄⢹⣿⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⢸⣿⠄⢸⡇⠄⣤⣤⣤⣤⣄⡉⠻⢿⣦⣄⡙⠟⠄⠈⠉⠻⣿⣶⠄⢸⡇⢸⣿⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠘⢿⣤⠄⠃⠄⣿⠉⠉⠉⢉⣉⣀⣀⣉⣛⣿⣶⣤⠄⢠⡆⣿⡿⠄⢈⣤⣾⠿⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠛⣦⠄⠄⣿⠄⠄⠄⢸⣿⣟⠛⠛⠛⢛⣿⡿⠄⠜⠃⣀⣤⡾⠟⠋⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⡀⠄⣿⠄⢰⡆⢸⣿⢿⣦⠄⢀⣼⠟⠄⣠⣴⡾⠟⢉⠄⡆⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⣴⡇⠄⣿⠄⠄⠁⢸⣿⠄⢻⣧⣼⣿⣾⠿⠛⠁⠄⣾⣿⠄⣿⣆⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⢀⣾⡿⠁⠄⢿⣦⣀⠄⢸⣿⠄⠄⠹⠟⠋⠄⣶⠇⢀⣀⣿⡿⠄⠈⢿⣆⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⢀⣼⠟⠄⠄⠄⠈⠉⠛⠇⢸⣿⠄⠄⠄⠄⠄⢀⣤⣶⡾⠛⠉⠄⠄⠄⠈⢿⣦⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠠⠾⠿⠿⠿⠿⠿⠿⠿⠶⠄⢸⣿⠄⣶⣤⣤⡾⠿⠛⠁⠤⠾⠿⠿⠿⠿⠿⠿⠿⠧⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⣿⠄⠈⠙⠉⢁⡀⠄⣶⡆⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⣿⠄⠛⢦⡾⠛⠁⣴⡟⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠿⣶⣦⣀⣀⣴⡾⠿⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠙⠻⠛⠋⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
+    ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄ -->
+    <canvas id="gl"></canvas>
+    <div class="neb neb-blue" id="nebBlue"></div>
+    <div class="neb neb-pink" id="nebPink"></div>
+    <div class="grain"></div>
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <div class="frame" aria-hidden="true">
+      <i class="c c-tl"></i><i class="c c-tr"></i><i class="c c-bl"></i
+      ><i class="c c-br"></i>
+      <span class="hud tl">PAIDAXING STUDIO</span>
+      <span class="hud tr"
+        ><span class="live-dot"></span>FLUID / <b>PASTEL DREAM</b></span
+      >
+      <div class="bl">
+        <span
+          id="busuanzi_container_site_pv"
+          class="visit-count"
+          style="display: none"
+          >访问次数 <span id="busuanzi_value_site_pv"></span
+        ></span>
+      </div>
+      <span class="hud br" id="clock">00:00:00</span>
+    </div>
+
+    <header>
+      <a class="home-nav" href="#home" data-nav>首页</a>
+      <nav class="nav" aria-label="主导航">
+        <i class="nav-bubble" aria-hidden="true"></i>
+        <a href="#journey" data-nav>历程</a>
+        <a href="#stack" data-nav>技术</a>
+        <a href="#works" data-nav>作品</a>
+        <a href="#friends" data-nav>友链</a>
+        <a href="#contact" data-nav>联系我</a>
+      </nav>
+    </header>
+
+    <div id="scroll-wrap">
+      <main>
+        <!-- HERO -->
+        <section id="home" class="section hero" data-skew>
+          <div class="wrap">
+            <p
+              class="hero-eyebrow fade-el revealed"
+              style="transition-delay: 0.1s"
+            >
+              Go · Python · AI Explorer
+            </p>
+            <h1 aria-label="PAI DA XING 派大星 造有趣的东西">
+              <span class="row hero-brand"
+                ><span data-chars data-delay="0">PAI DA XING</span></span
+              >
+              <span class="row outline hero-cn"
+                ><span data-chars data-delay="120">派大星</span></span
+              >
+              <span class="row"
+                ><span class="chrome chrome-cn js-chrome rise"
+                  >造有趣的东西</span
+                ></span
+              >
+            </h1>
+            <div class="hero-sub">
+              <p class="fade-el revealed" style="transition-delay: 0.55s">
+                你好，我是<button
+                  class="log-trigger"
+                  id="logTrigger"
+                  type="button"
+                  aria-haspopup="dialog"
+                >
+                  派大星</button
+                >。专注 Go 后端、Python 与 AI 探索。
+              </p>
+              <div
+                class="hero-cta fade-el revealed"
+                style="transition-delay: 0.7s"
+              >
+                <a
+                  class="btn"
+                  href="https://github.com/PaidaxingTuT"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-magnet
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </div>
+          <span class="scroll-hint">Scroll ↓</span>
+        </section>
+
+        <!-- 跑马灯 -->
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track" id="marquee">
+            <span class="chrome">Go</span><span class="o">Python</span
+            ><span class="y">✦</span> <span class="o">AI Explorer</span
+            ><span>Full Stack</span><span class="y">✦</span>
+            <span class="chrome">Go</span><span class="o">Python</span
+            ><span class="y">✦</span> <span class="o">AI Explorer</span
+            ><span>Full Stack</span><span class="y">✦</span>
+            <span class="chrome">Go</span><span class="o">Python</span
+            ><span class="y">✦</span> <span class="o">AI Explorer</span
+            ><span>Full Stack</span><span class="y">✦</span>
+          </div>
+        </div>
+
+        <!-- 历程 -->
+        <section id="journey" class="section sec" data-skew>
+          <div class="wrap">
+            <div class="sec-head" data-reveal>
+              <span class="sec-num fade-el">01 /</span>
+              <h2>
+                <span class="reveal-line"
+                  ><span>Journey <span class="cn">一直在路上</span></span></span
+                >
+              </h2>
+              <p class="sec-note fade-el">
+                从第一次接触代码，到持续构建可用的产品。
+              </p>
+            </div>
+            <div class="timeline">
+              <article class="milestone" data-reveal>
+                <span class="year fade-el">2018</span>
+                <div class="fade-el">
+                  <h3>初识编程</h3>
+                  <p>第一次接触编程，征战区级竞赛。</p>
+                </div>
+              </article>
+              <article class="milestone" data-reveal>
+                <span class="year fade-el">2020</span>
+                <div class="fade-el">
+                  <h3>深入学习</h3>
+                  <p>系统性学习，筑牢编程基础。</p>
+                </div>
+              </article>
+              <article class="milestone" data-reveal>
+                <span class="year fade-el">2021</span>
+                <div class="fade-el">
+                  <h3>独立建站</h3>
+                  <p>学习搭建网站，共享免费接口。</p>
+                </div>
+              </article>
+              <article class="milestone" data-reveal>
+                <span class="year fade-el">2025</span>
+                <div class="fade-el">
+                  <h3>体系重构</h3>
+                  <p>深入 Java 生态，打通全栈链路。</p>
+                </div>
+              </article>
+              <article class="milestone" data-reveal>
+                <span class="year fade-el">NOW</span>
+                <div class="fade-el">
+                  <h3>智启新程</h3>
+                  <p>进阶 Python 开发，探索 AI 新领域。</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- 技术栈 -->
+        <section id="stack" class="section sec" data-skew>
+          <div class="wrap">
+            <div class="sec-head" data-reveal>
+              <span class="sec-num fade-el">02 /</span>
+              <h2>
+                <span class="reveal-line">
+                  <span>Stack <span class="cn">武器库</span></span>
+                </span>
+              </h2>
+              <p class="sec-note fade-el">
+                持续学习，也持续删掉不必要的复杂性。
+              </p>
+            </div>
+
+            <div class="stack-list">
+              <div class="stack-row" data-reveal>
+                <span class="stack-idx fade-el">01</span>
+                <span class="stack-name fade-el">Go / Python</span>
+                <span class="stack-tag fade-el">Backend</span>
+              </div>
+              <div class="stack-row" data-reveal>
+                <span class="stack-idx fade-el">02</span>
+                <span class="stack-name fade-el">MySQL / Redis</span>
+                <span class="stack-tag fade-el">Database</span>
+              </div>
+              <div class="stack-row" data-reveal>
+                <span class="stack-idx fade-el">03</span>
+                <span class="stack-name fade-el">LangChain / RAG / Agent</span>
+                <span class="stack-tag fade-el">AI</span>
+              </div>
+              <div class="stack-row" data-reveal>
+                <span class="stack-idx fade-el">04</span>
+                <span class="stack-name fade-el">Git / Docker / Linux</span>
+                <span class="stack-tag fade-el">Engineering</span>
+              </div>
+              <div class="stack-row" data-reveal>
+                <span class="stack-idx fade-el">05</span>
+                <span class="stack-name fade-el"
+                  >Claude / ChatGPT / Gemini</span
+                >
+                <span class="stack-tag fade-el">AI Tools</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 作品 -->
+        <section id="works" class="section sec" data-skew>
+          <div class="wrap">
+            <div class="sec-head" data-reveal>
+              <span class="sec-num fade-el">03 /</span>
+              <h2>
+                <span class="reveal-line"
+                  ><span>Works <span class="cn">正在生长</span></span></span
+                >
+              </h2>
+              <p class="sec-note fade-el">实用、轻盈，偶尔也有一点天马行空。</p>
+            </div>
+            <div class="works-grid">
+              <a
+                class="work-card"
+                href="../popword"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+                data-tilt
+              >
+                <div>
+                  <span class="work-idx fade-el">PROJECT 01</span>
+                  <h3 class="fade-el">PopWord</h3>
+                  <p class="fade-el">
+                    浏览器插件英语学习助手，让查词和积累自然发生。
+                  </p>
+                </div>
+                <div class="work-foot fade-el">
+                  <div class="work-tags">
+                    <span>Extension</span><span>Learning</span>
+                  </div>
+                  <span class="work-arrow">↗</span>
+                </div>
+              </a>
+              <a
+                class="work-card"
+                href="https://video.pdxstudio.site/"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+                data-tilt
+              >
+                <div>
+                  <span class="work-idx fade-el">PROJECT 02</span>
+                  <h3 class="fade-el"><span class="cn">小黑盒</span> Parser</h3>
+                  <p class="fade-el">面向小黑盒视频的解析与下载工具。</p>
+                </div>
+                <div class="work-foot fade-el">
+                  <div class="work-tags">
+                    <span>Tool</span><span>Video</span>
+                  </div>
+                  <span class="work-arrow">↗</span>
+                </div>
+              </a>
+              <a
+                class="work-card"
+                href="../supertodo"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+                data-tilt
+              >
+                <div>
+                  <span class="work-idx fade-el">PROJECT 03</span>
+                  <h3 class="fade-el">超级清单</h3>
+                  <p class="fade-el">极简优雅的小而美现代化待办清单应用</p>
+                </div>
+                <div class="work-foot fade-el">
+                  <div class="work-tags">
+                    <span>Android</span
+                    ><span style="text-transform: none">SuperTodo</span>
+                  </div>
+                  <span class="work-arrow">↗</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 友链 -->
+        <section id="friends" class="section sec friends" data-skew>
+          <div class="wrap">
+            <div class="sec-head" data-reveal>
+              <span class="sec-num fade-el">04 /</span>
+              <h2>
+                <span class="reveal-line"
+                  ><span>Friends <span class="cn">我的伙伴</span></span></span
+                >
+              </h2>
+              <p class="sec-note fade-el">一些同样在认真做有趣事情的人。</p>
+            </div>
+            <div class="friends-grid">
+              <a
+                class="friend-card"
+                href="https://www.ljx.hk"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+              >
+                <div class="friend-avatar fade-el">
+                  <img src="img/fish.png" alt="会飞的鱼" />
+                </div>
+                <div class="friend-copy">
+                  <span class="friend-name fade-el">会飞的鱼</span>
+                  <span class="friend-desc fade-el">Java 后端开发见习生</span>
+                </div>
+                <span class="friend-arrow fade-el" aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                class="friend-card"
+                href="https://www.snkj.xyz"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+              >
+                <div class="friend-avatar fade-el">
+                  <img src="https://www.snkj.xyz/favicon.ico" alt="少年科技" />
+                </div>
+                <div class="friend-copy">
+                  <span class="friend-name fade-el">少年科技</span>
+                  <span class="friend-desc fade-el">彼方尚有荣光在</span>
+                </div>
+                <span class="friend-arrow fade-el" aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                class="friend-card"
+                href="http://amadeuscristina.site"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+              >
+                <div class="friend-avatar fade-el">
+                  <img src="img/amadeus.png" alt="Amadeus" />
+                </div>
+                <div class="friend-copy">
+                  <span class="friend-name fade-el">Amadeus</span>
+                  <span class="friend-desc fade-el">Amadeus 个人网站</span>
+                </div>
+                <span class="friend-arrow fade-el" aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                class="friend-card"
+                href="http://www.gaoguang.xin/"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+              >
+                <div class="friend-avatar fade-el">
+                  <img src="img/huama.png" alt="花马我靠" />
+                </div>
+                <div class="friend-copy">
+                  <span class="friend-name fade-el">花马我靠</span>
+                  <span class="friend-desc fade-el">摆烂玩家</span>
+                </div>
+                <span class="friend-arrow fade-el" aria-hidden="true">↗</span>
+              </a>
+
+              <a
+                class="friend-card"
+                href="https://www.rainyun.com/OTgzMTIx_"
+                target="_blank"
+                rel="noreferrer"
+                data-reveal
+              >
+                <div class="friend-avatar fade-el">
+                  <img
+                    src="https://app.rainyun.com/img/logo.d193755d.png"
+                    alt="雨云"
+                  />
+                </div>
+                <div class="friend-copy">
+                  <span class="friend-name fade-el">雨云</span>
+                  <span class="friend-desc fade-el"
+                    >本站由雨云提供计算服务</span
+                  >
+                </div>
+                <span class="friend-arrow fade-el" aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- 联系 -->
+        <section id="contact" class="section contact" data-skew>
+          <div class="wrap">
+            <p class="hello fade-el" data-reveal>
+              05 / Contact — 来聊点有意思的
+            </p>
+            <h2 data-reveal>
+              <span class="reveal-line"><span>Let's make</span></span>
+              <span class="reveal-line"
+                ><span
+                  ><em class="chrome chrome-cn js-chrome">某件事</em>
+                  <span class="serif-en">real.</span></span
+                ></span
+              >
+            </h2>
+            <div data-reveal>
+              <a
+                class="contact-mail fade-el"
+                href="mailto:mail@pdxstudio.site"
+                data-magnet
+                >mail@pdxstudio.site</a
+              >
+            </div>
+            <div class="contact-links" data-reveal>
+              <a
+                class="chip fade-el"
+                href="javascript:void(0)"
+                onclick="copyQQ()"
+                data-magnet
+                >QQ</a
+              >
+              <a
+                class="chip fade-el"
+                href="https://space.bilibili.com/317050115"
+                target="_blank"
+                rel="noreferrer"
+                data-magnet
+                >哔哩哔哩</a
+              >
+              <a
+                class="chip fade-el"
+                href="https://www.xiaoheihe.cn/app/user/profile/50144591"
+                target="_blank"
+                rel="noreferrer"
+                data-magnet
+                >小黑盒</a
+              >
+              <a
+                class="chip fade-el"
+                href="https://github.com/PaidaxingTuT"
+                target="_blank"
+                rel="noreferrer"
+                data-magnet
+                >Github</a
+              >
+              <a
+                class="chip fade-el"
+                href="https://qm.qq.com/cgi-bin/qm/qr?k=IsRlx2v8D6K43iCryyy5kfRGckQSkepa&amp;jump_from=webapi&amp;authKey=Nk4t+qYsYUnrUhIaykPtS7O78KR5/f5LKj0DeL+bWIrqY+LOzQD4tIQ+PHJBMxXa"
+                target="_blank"
+                rel="noreferrer"
+                data-magnet
+                >QQ群</a
+              >
+              <a class="chip fade-el" href="../pay" data-magnet>赞助我</a>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div class="wrap">
+            <span>© 2026 Paidaxing Studio</span>
+            <span>Made with curiosity &amp; fluid dynamics</span>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <div
+      class="log-modal"
+      id="logModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="logTitle"
+      aria-hidden="true"
+    >
+      <div class="log-modal-backdrop" data-log-close></div>
+      <section class="log-panel" role="document">
+        <header class="log-panel-head">
+          <span class="log-panel-kicker">PAIDAXING / ARCHIVE</span>
+          <h2 id="logTitle">网站日志</h2>
+          <button
+            class="log-close"
+            type="button"
+            data-log-close
+            aria-label="关闭网站日志"
+          >
+            ×
+          </button>
+        </header>
+        <div class="log-body" id="logBody" tabindex="0">正在读取日志...</div>
+        <i class="log-scrollbar" id="logScrollbar" aria-hidden="true"></i>
+      </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+    <script
+      async
+      src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+    ></script>
+  </body>
+</html>

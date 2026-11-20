@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /api/
+Disallow: /blog/
+Disallow: /img/
+Disallow: /pay/
+Disallow: /pic/
+Disallow: /popword/
+Disallow: /score
+Allow: /
+
+Sitemap: https://pdxstudio.top/sitemap.xml

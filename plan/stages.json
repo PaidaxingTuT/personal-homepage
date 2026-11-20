@@ -1,0 +1,44 @@
+[
+  {
+    "id": "stage-1",
+    "phase": "阶段一",
+    "title": "Python 与开发基本功",
+    "desc": "把写程序、调接口、管理依赖和排查问题的基本功补稳。目标不是学全后端，而是能独立完成后面的 AI 项目。"
+  },
+  {
+    "id": "stage-2",
+    "phase": "阶段二",
+    "title": "大模型与 LangChain 基础",
+    "desc": "理解模型调用、消息、Prompt、结构化输出和工具调用，先做清楚简单的 LLM 应用，再进入复杂工作流。"
+  },
+  {
+    "id": "stage-3",
+    "phase": "阶段三",
+    "title": "RAG 检索增强",
+    "desc": "从文档加载到检索回答跑通一条可解释的 RAG 链路，重点理解每一环为什么这样设计。"
+  },
+  {
+    "id": "stage-4",
+    "phase": "阶段四",
+    "title": "把 RAG 做成服务",
+    "desc": "以 Python FastAPI 承担 LLM、RAG、工具和记忆服务；PostgreSQL + pgvector 专用于 Agent/RAG 数据，Redis 与 Java 服务共用。同步维持 Java Spring Boot + MySQL 的传统业务能力。"
+  },
+  {
+    "id": "stage-5",
+    "phase": "阶段五",
+    "title": "LangGraph Agent 工作流",
+    "desc": "掌握状态、路由、循环、工具、记忆和人工介入，构建可靠的单 Agent 工作流；不急着做多 Agent。"
+  },
+  {
+    "id": "stage-6",
+    "phase": "阶段六",
+    "title": "MCP 与项目整合",
+    "desc": "学习 MCP 的核心通信与工具接入方式，把 RAG、Agent 和外部工具整合成一个完整应用。"
+  },
+  {
+    "id": "stage-7",
+    "phase": "阶段七（选修）",
+    "title": "按兴趣继续进阶",
+    "desc": "主线完成后，再从多 Agent、本地模型、评测、多模态、搜索和数据库中选择一个方向深入。Go 是后期云原生/高并发副方向；Kotlin、Flutter 仅作兴趣开发，不占求职主线时间。"
+  }
+]
